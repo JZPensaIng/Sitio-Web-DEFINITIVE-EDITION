@@ -2,146 +2,154 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Starfield Template Web</title>
+<title>Starfield NASA Template</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Rajdhani:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Rajdhani:wght@400;700&display=swap');
 
-  /* RESET */
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  body {
-    font-family: 'Rajdhani', sans-serif;
-    background-color: #000;
-    color: #e0e0e0;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: linear-gradient(180deg, #000 0%, #0a0a0a 40%, #001f3f 80%, #100 100%);
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
 
-  /* Estrellas oscuras de fondo */
-  .stars {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    background: radial-gradient(circle, #000 0%, #000 100%);
-  }
+/* Contenedor de estrellas blancas */
+.stars {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px) repeat;
+  background-size: 3px 3px;
+  animation: moveStars 120s linear infinite;
+  opacity: 0.4;
+}
 
-  /* HEADER */
-  header {
-    padding: 20px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+@keyframes moveStars {
+  from { background-position: 0 0; }
+  to { background-position: -2000px 1000px; }
+}
 
-  h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2.5em;
-    color: #fff;
-    text-shadow: 0 0 10px rgba(255,255,255,0.2);
-  }
+/* HEADER */
+header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0,0,0,0.8);
+  border-bottom: 2px solid #ff4136;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  animation: fadeIn 1s ease forwards;
+}
 
-  /* Menu desplegable */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5em;
+  color: #00ffff;
+  text-shadow: 0 0 15px rgba(0,255,255,0.4);
+}
 
-  .dropbtn {
-    background-color: #111;
-    color: #ff914d;
-    padding: 10px 20px;
-    font-size: 1em;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: bold;
-  }
+/* MENU DESPLEGABLE */
+.dropdown { position: relative; display: inline-block; }
+.dropbtn {
+  background-color: #111;
+  color: #ff4136;
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.dropbtn:hover { background-color: #222; color: #ff726f; }
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #111;
+  min-width: 200px;
+  border: 1px solid #555;
+  z-index: 10;
+  border-radius: 5px;
+  animation: fadeIn 0.5s ease forwards;
+}
+.dropdown-content a {
+  color: #ff726f;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-content a:hover { background-color: #222; }
+.dropdown:hover .dropdown-content { display: block; }
 
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #111;
-    min-width: 160px;
-    border: 1px solid #555;
-    z-index: 10;
-    border-radius: 5px;
-  }
+/* TABS */
+.tab {
+  display: none;
+  padding: 20px;
+  animation: fadeIn 0.7s ease forwards;
+}
+.tab.active { display: block; }
 
-  .dropdown-content a {
-    color: #ff914d;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
+/* FRAME */
+.frame {
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 900px;
+  border-radius: 12px;
+  background-color: rgba(0,0,0,0.8);
+  box-shadow: 0 0 25px rgba(0,255,255,0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.frame:hover { transform: translateY(-5px); box-shadow: 0 0 35px rgba(0,255,255,0.2); }
 
-  .dropdown-content a:hover {
-    background-color: #222;
-  }
+/* TAB BUTTONS */
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px;
+}
+.tab-buttons button {
+  background-color: #111;
+  color: #ff4136;
+  border: 1px solid #555;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+.tab-buttons button.active { background-color: #222; border-color: #00ffff; color: #00ffff; }
 
-  .dropdown:hover .dropdown-content { display: block; }
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 30px;
+  font-size: 0.9em;
+  color: #aaa;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
 
-  /* TAB STYLING */
-  .tab {
-    display: none;
-    padding: 20px;
-  }
-
-  .tab.active { display: block; }
-
-  /* Frames de secciones */
-  .frame {
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 800px;
-    border-radius: 12px;
-    background-color: rgba(10,10,10,0.7);
-    box-shadow: 0 0 15px rgba(255,255,255,0.05);
-  }
-
-  /* Tabs botones */
-  .tab-buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
-  .tab-buttons button {
-    background-color: #111;
-    color: #ff914d;
-    border: 1px solid #555;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin: 0 5px;
-    border-radius: 5px;
-    font-weight: bold;
-  }
-
-  .tab-buttons button.active {
-    background-color: #222;
-    border-color: #ff914d;
-  }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 0.9em;
-    color: #777;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    margin-top: 40px;
-  }
+/* Animaciones */
+@keyframes fadeIn { 0% {opacity:0;} 100% {opacity:1;} }
 </style>
 </head>
 <body>
 <div class="stars"></div>
 
 <header>
-  <h1>Starfield Template</h1>
+  <h1>Starfield NASA Template</h1>
   <div class="dropdown">
     <button class="dropbtn">Menu Tabs</button>
     <div class="dropdown-content">
@@ -156,28 +164,44 @@
 <div class="tab tab1 active" id="tab1">
   <div class="frame">
     <h2>Introducción</h2>
-    <p>Este es un espacio de template para notas de introducción. Aquí puedes colocar tu contenido inicial, ideas generales o resumen de objetivos. Placeholder para cualquier texto que necesites.</p>
+    <p>Este es un texto de relleno para la sección de introducción. Contiene ideas sobre la misión, objetivos y contexto del proyecto. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus euismod turpis ac leo ultrices, ut egestas sapien elementum. Etiam non dolor ac est scelerisque fringilla. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sed lectus id nisl facilisis vehicula. Donec vehicula, mauris et ultrices dapibus, justo ex pulvinar erat, sed posuere nisi neque ac justo. Cras ac felis sed libero congue gravida.</p>
+
+    <img src="shrek.png" alt="Imagen template" width="240" style="margin-top:20px; display:block; margin-left:auto; margin-right:auto;">
+
+    <p>Continuación de la introducción para completar el contenido. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec leo id libero ultricies varius. Fusce nec felis ut sapien tincidunt ullamcorper. Nulla facilisi. Suspendisse ac nisl et libero hendrerit sodales. Donec fringilla velit et sapien dictum fermentum. Vestibulum ac neque eu nulla fermentum sagittis. Curabitur ut lectus nec purus vulputate facilisis.</p>
   </div>
 </div>
 
 <div class="tab tab2" id="tab2">
   <div class="frame">
     <h2>Detalles</h2>
-    <p>Sección para detalles técnicos, características o información más específica. Usa este frame para organizar datos importantes y dejar espacio para anotaciones.</p>
+    <p>Sección con información detallada. Placeholder para texto extenso que complementa la estructura del sitio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id ex sed arcu placerat consequat. Vestibulum quis ante risus. Maecenas vel sodales nisl. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Suspendisse potenti. Integer tempor efficitur nisi, a hendrerit arcu. Praesent varius justo nec eros venenatis, a dictum justo gravida. Donec vitae ex in neque dictum dapibus.</p>
+
+    <p>Segunda parte del contenido de detalles. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula sapien in lectus vehicula, non ultricies urna pharetra. Sed imperdiet urna vitae semper posuere. Phasellus ac turpis in justo cursus ultricies. Suspendisse potenti. Cras in feugiat leo, at vulputate metus. Nullam pretium, libero sed sagittis volutpat, turpis sapien pharetra erat, nec vestibulum purus nisi sed est.</p>
+
+    <img src="shrek.png" alt="Imagen template" width="240" style="margin-top:20px; display:block; margin-left:auto; margin-right:auto;">
   </div>
 </div>
 
 <div class="tab tab3" id="tab3">
   <div class="frame">
     <h2>Notas</h2>
-    <p>Frame destinado a notas rápidas o recordatorios. Puedes anotar ideas temporales, tareas pendientes o cualquier contenido dinámico.</p>
+    <p>Sección para notas y recordatorios. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at convallis mauris, a convallis lectus. Suspendisse potenti. Etiam euismod urna a turpis viverra tincidunt. Donec luctus, libero nec dapibus fermentum, enim elit laoreet arcu, a tempus purus nulla nec odio. Nulla facilisi. Vivamus ut est ac nunc sagittis vehicula. Proin rutrum dui vitae dolor feugiat facilisis. Cras id lacinia sapien. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+
+    <p>Continuación de notas y ejemplo de contenido. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce euismod ex eu leo fermentum, et bibendum sapien malesuada. Curabitur lacinia dui non risus pretium, eget pretium nulla mattis. Integer at quam et nibh malesuada tempus.</p>
+
+    <img src="shrek.png" alt="Imagen template" width="240" style="margin-top:20px; display:block; margin-left:auto; margin-right:auto;">
   </div>
 </div>
 
 <div class="tab tab4" id="tab4">
   <div class="frame">
     <h2>Extras</h2>
-    <p>Sección para contenido adicional o información extra. Este frame puede servir como repositorio de referencias, enlaces o información secundaria.</p>
+    <p>Sección de información extra o complementaria. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet sapien sed mi tincidunt vehicula. Duis et sapien a nisl sollicitudin dignissim. Sed suscipit turpis at ante congue, sed feugiat neque imperdiet. Nullam ut ligula sed purus fermentum cursus a a felis. Sed vitae ex a est fringilla sollicitudin. Vestibulum fermentum quam sed erat porttitor, ac dictum ex fermentum.</p>
+
+    <p>Segunda parte de extras para completar las dos cuartillas por tab. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada sapien at justo gravida, ut sodales lacus porttitor. Cras mattis elit nec est convallis, sed vulputate ligula pulvinar. Aenean id facilisis risus, eget finibus nulla. Proin vel nulla in nulla blandit scelerisque non a nisi. Quisque sagittis felis in metus pharetra, at imperdiet nulla vestibulum.</p>
+
+    <img src="shrek.png" alt="Imagen template" width="240" style="margin-top:20px; display:block; margin-left:auto; margin-right:auto;">
   </div>
 </div>
 
@@ -189,7 +213,7 @@
 </div>
 
 <footer>
-  © 2330 - Starfield Template | Diseño dinámico tipo Bethesda
+  © 2330 - Starfield NASA Template | Contenido dinámico tipo Starfield
 </footer>
 
 <script>
@@ -206,3 +230,4 @@ function openTab(tabId){
 
 </body>
 </html>
+
