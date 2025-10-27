@@ -1,21 +1,129 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <title>DEFINITIVE-WEB</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Rajdhani:wght@400;700&display=swap');
+
+```
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Rajdhani', sans-serif;
+  background: radial-gradient(circle at top, #0b0c10 0%, #010101 70%);
+  color: #e0e0e0;
+  text-align: center;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+header {
+  padding: 60px 20px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3em;
+  color: #fff;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+h2 {
+  font-size: 1.3em;
+  color: #7fd1ff;
+  margin-top: -10px;
+  letter-spacing: 1px;
+}
+
+p {
+  max-width: 600px;
+  margin: 20px auto;
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #c0c0c0;
+}
+
+img {
+  margin-top: 30px;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(255,255,255,0.15);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 35px rgba(0, 150, 255, 0.4);
+}
+
+a {
+  color: #ff914d;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: #ffa95e;
+}
+
+footer {
+  margin-top: 60px;
+  padding: 20px;
+  font-size: 0.9em;
+  color: #777;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Efecto de estrellas de fondo */
+.stars {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+  animation: moveStars 120s linear infinite;
+  opacity: 0.3;
+}
+
+@keyframes moveStars {
+  from { background-position: 0 0; }
+  to { background-position: -10000px 5000px; }
+}
+```
+
+  </style>
 </head>
 <body>
-    
-  <h1>Sitio Web DEFINITIVE EDITION</h1>
-  <h2>La versión definitiva de un sitio web... perfección</h2>
-  <p>En un mundo donde no hay buenos sitios web, este es la obeja negra...</p>
-  <p>Es hermoso...</p>
-  <img src="shrek.png" width="240">
+  <div class="stars"></div>
+  <header>
+    <h1>Sitio Web DEFINITIVE EDITION</h1>
+    <h2>La versión definitiva de un sitio web... perfección</h2>
+  </header>
 
-  <p>Visita
-   <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Un regalito</a>
-  </p>
-  
+  <main>
+    <p>En un mundo donde no hay buenos sitios web, este es la oveja negra...</p>
+    <p>Es hermoso...</p>
+    <img src="shrek.png" alt="Shrek definitivo" width="240">
+
+```
+<p>Visita 
+  <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
+    Un regalito
+  </a>
+</p>
+```
+
+  </main>
+
+  <footer>
+    © 2330 - DefinitiveWeb Industries | Explorando más allá de los límites del HTML
+  </footer>
 </body>
 </html>
-
