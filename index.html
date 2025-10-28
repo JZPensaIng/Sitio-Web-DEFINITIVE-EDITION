@@ -25,14 +25,15 @@
       margin: 0;
       padding: 0;
       font-family: var(--font-secondary);
-      overflow-x: hidden;
+      overflow-x: hidden; /* Prevent horizontal scroll */
       background-color: var(--color-bg);
       color: var(--color-text);
       font-weight: 300;
       letter-spacing: 0.5px;
+      height: 100%; /* Ensure html and body take full height for loading screen */
     }
 
-    /* Animated Background */
+    /* Animated Background & Overlay */
     body::before {
       content: '';
       position: fixed;
@@ -46,21 +47,44 @@
       animation: zoom 60s infinite linear alternate;
     }
 
-    /* Dark overlay for readability */
-    body::after {
+    body::after { /* Dark overlay for readability */
       content: '';
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(12, 22, 28, 0.85); /* 85% opacity of --color-bg */
+      background: rgba(12, 22, 28, 0.88); /* Increased opacity to 88% for better contrast */
       z-index: -1;
     }
 
     @keyframes zoom {
       0% { transform: scale(1); }
       100% { transform: scale(1.1); }
+    }
+
+    /* Animated Stars (Foreground Effect) */
+    .star-effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Above background, below main content */
+      pointer-events: none; /* Allows clicks to pass through */
+      background: 
+        radial-gradient(2px 2px at 20px 30px, var(--color-text), rgba(255,255,255,0)),
+        radial-gradient(2px 2px at 80px 70px, var(--color-text), rgba(255,255,255,0)),
+        radial-gradient(1px 1px at 120px 10px, var(--color-text), rgba(255,255,255,0)),
+        radial-gradient(1px 1px at 50px 150px, var(--color-text), rgba(255,255,255,0));
+      background-size: 200px 200px; /* Adjust density */
+      opacity: 0.2; /* Semi-transparent */
+      animation: starMove 100s linear infinite;
+    }
+
+    @keyframes starMove {
+      from { background-position: 0 0; }
+      to { background-position: 10000px 10000px; } /* Large values for diagonal movement */
     }
 
     /* ========================================
@@ -71,11 +95,21 @@
       max-width: 1000px;
       margin: 0 auto;
       padding: 20px;
+      position: relative; /* For z-index context */
+      z-index: 1; /* Ensure content is above background/stars */
     }
 
     header {
-      text-align: center;
+      position: relative;
       margin: 30px 0 40px 0;
+      z-index: 2; /* Above other content if needed */
+    }
+
+    .header-bg { /* White background for the title */
+      background-color: var(--color-text);
+      padding: 15px 0;
+      text-align: center;
+      margin-bottom: 30px; /* Space between header and nav */
     }
 
     header h1 {
@@ -83,20 +117,20 @@
       font-size: 3rem;
       letter-spacing: 8px;
       text-transform: uppercase;
-      color: var(--color-text);
+      color: var(--color-bg); /* Dark text on white background */
       font-weight: 700;
       margin: 0;
+      display: inline-block; /* To contain text within its own space */
+      padding: 0 20px;
     }
 
     /* ========================================
     TAB SYSTEM
     ========================================
     */
-
-    /* Tab navigation bar */
     .tab-container {
       display: flex;
-      justify-content: flex-start; /* Aligned left for "NASA-UI" feel */
+      justify-content: flex-start;
       gap: 10px;
       border-bottom: 1px solid var(--color-border);
       margin-bottom: 30px;
@@ -116,27 +150,26 @@
       position: relative;
       transition: color 0.2s ease-out;
       border-bottom: 3px solid transparent;
-      margin-bottom: -1px; /* Aligns with container border */
+      margin-bottom: -1px;
     }
 
     .tab-button:hover {
       color: var(--color-accent-hover);
     }
 
-    /* Active tab state */
     .tab-button.active {
       color: var(--color-accent);
       border-bottom-color: var(--color-accent);
     }
 
-    /* Content panes */
     .tab-content {
-      display: none; /* Hidden by default */
+      display: none;
       animation: fadeIn 0.5s ease-out;
+      padding-bottom: 50px; /* Give some space before footer */
     }
 
     .tab-content.active {
-      display: block; /* Shown when active */
+      display: block;
     }
 
     @keyframes fadeIn {
@@ -145,7 +178,7 @@
     }
 
     /* ========================================
-    CONTENT STYLING
+    CONTENT & IMAGE STYLING
     ========================================
     */
     .tab-content h2 {
@@ -156,6 +189,7 @@
       letter-spacing: 3px;
       color: var(--color-accent);
       margin-top: 0;
+      margin-bottom: 25px;
     }
 
     .tab-content p {
@@ -163,13 +197,91 @@
       line-height: 1.7;
       color: var(--color-text);
       font-weight: 300;
-      max-width: 80ch; /* Good line length for reading */
-    }
-
-    .tab-content p:last-child {
-      margin-bottom: 0;
+      max-width: 80ch;
+      margin-bottom: 20px;
     }
     
+    .content-with-image {
+        display: flex;
+        flex-direction: column; /* Stack paragraph and image */
+        margin-bottom: 40px;
+    }
+
+    .content-with-image img {
+        max-width: 100%; /* Images fill container width */
+        height: auto;
+        display: block;
+        margin-top: 20px; /* Space between paragraph and image */
+        border: 1px solid var(--color-border); /* Subtle border */
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); /* Depth effect */
+        cursor: pointer; /* Indicate clickable */
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .content-with-image img:hover {
+        transform: scale(1.01); /* Slight zoom on hover */
+    }
+
+    /* Lightbox for image expansion */
+    .lightbox {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 9999; /* On top of everything */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.9); /* Dark overlay */
+      align-items: center; /* Center image vertically */
+      justify-content: center; /* Center image horizontally */
+    }
+
+    .lightbox-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain; /* Ensure image fits */
+    }
+
+    .close-lightbox {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .close-lightbox:hover,
+    .close-lightbox:focus {
+      color: #bbb;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
+    /* References specific styling */
+    #references ul {
+        list-style: none;
+        padding: 0;
+    }
+    #references li {
+        margin-bottom: 15px;
+        font-size: 1.05rem;
+    }
+    #references a {
+        color: var(--color-accent);
+        text-decoration: none;
+        transition: color 0.2s ease-out;
+    }
+    #references a:hover {
+        color: var(--color-accent-hover);
+        text-decoration: underline;
+    }
+
     /* ========================================
     FOOTER
     ========================================
@@ -184,15 +296,85 @@
       font-size: 0.9rem;
       letter-spacing: 1px;
       text-transform: uppercase;
+      position: relative; /* For z-index */
+      z-index: 1;
     }
 
+    /* ========================================
+    LOADING SCREEN
+    ========================================
+    */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--color-text); /* White background */
+      z-index: 10000; /* Highest z-index */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden; /* Hide star overflow */
+    }
+
+    .loading-screen.hidden {
+      animation: curtainClose 1.5s forwards; /* Animation to hide */
+    }
+
+    /* Star animation for loading screen - more dense and faster */
+    .loading-screen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(3px 3px at 5% 10%, #fff, rgba(255,255,255,0)),
+        radial-gradient(2px 2px at 15% 25%, #fff, rgba(255,255,255,0)),
+        radial-gradient(4px 4px at 25% 5%, #fff, rgba(255,255,255,0)),
+        radial-gradient(2px 2px at 35% 40%, #fff, rgba(255,255,255,0)),
+        radial-gradient(3px 3px at 45% 15%, #fff, rgba(255,255,255,0)),
+        radial-gradient(2px 2px at 55% 30%, #fff, rgba(255,255,255,0)),
+        radial-gradient(4px 4px at 65% 10%, #fff, rgba(255,255,255,0)),
+        radial-gradient(3px 3px at 75% 45%, #fff, rgba(255,255,255,0)),
+        radial-gradient(2px 2px at 85% 20%, #fff, rgba(255,255,255,0)),
+        radial-gradient(3px 3px at 95% 35%, #fff, rgba(255,255,255,0));
+      background-size: 100px 100px; /* Adjust density */
+      opacity: 0.7;
+      animation: loadingStarMove 5s linear infinite;
+    }
+
+    @keyframes loadingStarMove {
+      from { background-position: 0 0; }
+      to { background-position: 500px 500px; }
+    }
+
+
+    /* Curtain animation (opening) */
+    @keyframes curtainClose {
+        0% { transform: translateY(0); opacity: 1; }
+        50% { opacity: 1; }
+        100% { transform: translateY(-100%); opacity: 0; visibility: hidden; }
+    }
+
+    /* Hide body content until loaded */
+    body.loading {
+      overflow: hidden; /* Prevent scrolling during load */
+    }
   </style>
 </head>
-<body>
+<body class="loading">
 
-  <div class="container">
+  <div class="loading-screen">
+    </div>
+
+  <div class="star-effect"></div> <div class="container">
     <header>
-      <h1>STARFIELD</h1>
+      <div class="header-bg">
+        <h1>STARFIELD</h1>
+      </div>
     </header>
 
     <nav class="tab-container">
@@ -200,6 +382,7 @@
       <button class="tab-button" data-tab="mission">Mission</button>
       <button class="tab-button" data-tab="codex">Codex</button>
       <button class="tab-button" data-tab="system">System</button>
+      <button class="tab-button" data-tab="references">References</button>
     </nav>
 
     <main class="content-container">
@@ -207,44 +390,128 @@
       <div class="tab-content active" id="home">
         <h2>Welcome to Constellation</h2>
         <p>You've found your way to Constellation. We're an organization of explorers, scientists, and adventurers united by a common purpose: to uncover the mysteries of the galaxy. What you've found is the key to everything.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
+        
+        <div class="content-with-image">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam arcu sed eros.</p>
+            <img src="https://cdna.artstation.com/p/assets/images/images/051/087/905/large/eugene-shishkin-screenshot-00000.jpg?1656511116" alt="Starfield Spaceship UI Concept">
+        </div>
+
+        <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>
+
+        <div class="content-with-image">
+            <p>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi. Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat.</p>
+            <img src="https://cdnb.artstation.com/p/assets/images/images/051/087/928/large/eugene-shishkin-screenshot-00005.jpg?1656511145" alt="Starfield Planet Scan UI">
+        </div>
+
+        <p>Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus.</p>
+
+        <div class="content-with-image">
+            <p>Nunc a sapien. Cras interdum sollicitudin ante. Maecenas non turpis vitae elit dapibus efficitur. Mauris vitae libero quis ante venenatis imperdiet sed in purus. Aliquam vitae metus vel elit volutpat aliquet at vitae turpis.</p>
+            <img src="https://cdna.artstation.com/p/assets/images/images/051/087/915/large/eugene-shishkin-screenshot-00001.jpg?1656511128" alt="Starfield Inventory UI">
+        </div>
       </div>
 
       <div class="tab-content" id="mission">
         <h2>Mission Debrief</h2>
         <p>Our primary objective is to secure the remaining Artifacts. Their purpose is unknown, but their power is undeniable. Intelligence suggests recent activity in the Cheyenne system. Your task is to investigate, report, and secure any findings.</p>
-        <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus.</p>
+        
+        <div class="content-with-image">
+            <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus.</p>
+            <img src="https://cdn.wccftech.com/wp-content/uploads/2023/06/Starfield-Gameplay-Screenshot-002-12-scaled.jpg" alt="Astronaut in Starfield">
+        </div>
+
+        <p>Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi. Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat.</p>
+
+        <div class="content-with-image">
+            <p>Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus.</p>
+            <img src="https://assets-prd.ignimgs.com/2022/06/12/starfield-screenshot-001-1655060413000.jpg" alt="Starfield Alien Landscape">
+        </div>
+
+        <p>Nunc a sapien. Cras interdum sollicitudin ante. Maecenas non turpis vitae elit dapibus efficitur. Mauris vitae libero quis ante venenatis imperdiet sed in purus. Aliquam vitae metus vel elit volutpat aliquet at vitae turpis.</p>
+
+        <div class="content-with-image">
+            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.</p>
+            <img src="https://www.pcgamesn.com/wp-content/uploads/2023/08/Starfield_E3_SettleSysMap.jpg" alt="Starfield Star Map">
+        </div>
       </div>
 
       <div class="tab-content" id="codex">
         <h2>Codex: United Colonies</h2>
         <p>The United Colonies (UC) is the most powerful, established military and political faction in the Settled Systems. Based in New Atlantis on the planet Jemison, the UC embodies the spirit of a centralized, law-abiding republic.</p>
-        <p>They maintain a large, disciplined fleet and control vast territories. While seen as a beacon of stability by some, others view their expansion and bureaucracy with suspicion. Relations with the Freestar Collective remain tense after the Colony War.</p>
+        
+        <div class="content-with-image">
+            <p>They maintain a large, disciplined fleet and control vast territories. While seen as a beacon of stability by some, others view their expansion and bureaucracy with suspicion. Relations with the Freestar Collective remain tense after the Colony War, but a fragile peace currently holds.</p>
+            <img src="https://images.gnwcdn.com/2023/articles/2023-08-31-09-54/starfield-release-date-times-preload-new-zealand-pc-xbox-game-pass-1693462479633.jpg/PRM/2000/H2000/CR0,0,2000,1051/FIXED/1693462479633.jpg" alt="New Atlantis Cityscape">
+        </div>
+
+        <p>The UC Citizens are proud and loyal, benefiting from advanced technology and social stability. However, the rigid structure can feel oppressive to those who value personal freedom above all else, often leading them to the Freestar Collective.</p>
+
+        <div class="content-with-image">
+            <p>Their military prowess is unmatched, with highly trained soldiers and state-of-the-art spacecraft. Recruitment into the UC Navy or Vanguard is a prestigious path, offering a secure career and a chance to defend the core worlds from external threats.</p>
+            <img src="https://sm.ign.com/ign_br/blogroll/s/starfield-/starfield-preview-what-we-saw-in-bethesdas-deep-dive-into-its_ezt9.jpg" alt="UC Vanguard Ship">
+        </div>
+
+        <p>Research and development are heavily funded by the UC, leading to breakthroughs in grav-drive technology, robotics, and terraforming. These advancements solidify their position as the technological leader in the Settled Systems.</p>
+
+        <div class="content-with-image">
+            <p>New Atlantis, the capital, is a sprawling metropolis of towering skyscrapers, verdant parks, and bustling marketplaces. It serves as a hub for trade, diplomacy, and interspecies cooperation, a true testament to human ambition among the stars.</p>
+            <img src="https://www.videogameschronicle.com/files/2023/08/Starfield_Screenshot_NewAtlantis-scaled.jpg" alt="New Atlantis Street">
+        </div>
       </div>
 
       <div class="tab-content" id="system">
         <h2>System Status</h2>
-        <p>All systems nominal. Ship integrity at 100%. Grav-drive spooling is optimal. Reviewing navigational charts for the Alpha Centauri system.</p>
-        <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
+        <p>All systems nominal. Ship integrity at 100%. Grav-drive spooling is optimal. Reviewing navigational charts for the Alpha Centauri system. Environmental controls are stable, maintaining optimal life support for all crew.</p>
+        
+        <div class="content-with-image">
+            <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
+            <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="Starfield Mission Board">
+        </div>
+
+        <p>Gravimetric readings indicate stable jump vectors to nearby systems. Fuel reserves are at 95%, sufficient for multiple grav-jumps and extensive planetary exploration. Communications array is fully operational, maintaining contact with Constellation HQ.</p>
+
+        <div class="content-with-image">
+            <p>Nunc a sapien. Cras interdum sollicitudin ante. Maecenas non turpis vitae elit dapibus efficitur. Mauris vitae libero quis ante venenatis imperdiet sed in purus. Aliquam vitae metus vel elit volutpat aliquet at vitae turpis.</p>
+            <img src="https://compass-ssl.xbox.com/assets/f4/7e/f47e0984-c5a8-485f-861f-17855b3c3c7a.jpg?n=Starfield_Feature-Image-L_Exploration_1083x609.jpg" alt="Starfield Exploration">
+        </div>
+
+        <p>Life support systems are cycling perfectly, with atmospheric scrubbers working overtime to ensure fresh air. Power distribution is balanced across all modules, with a slight reserve for emergency thruster bursts or weapon systems.</p>
+
+        <div class="content-with-image">
+            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.</p>
+            <img src="https://img.redbull.com/images/c_limit,w_1500,h_1000,f_auto,q_auto/redbullcom/2023/6/12/j9s31fvx4qclnry60i1n/starfield-screenshot-3" alt="Starfield Character Customization">
+        </div>
+      </div>
+
+      <div class="tab-content" id="references">
+        <h2>References & Sources</h2>
+        <p>This page is a fan-made UI concept inspired by Bethesda Game Studios' Starfield. All trademarks, copyrights, and intellectual property related to Starfield belong to ZeniMax Media Inc. and Bethesda Softworks LLC.</p>
+        <ul>
+            <li><a href="https://bethesda.net/en/game/starfield" target="_blank">Official Starfield Website</a></li>
+            <li><a href="https://starfield.fandom.com/wiki/Starfield_Wiki" target="_blank">Starfield Wiki (Fandom)</a></li>
+            <li><a href="https://www.artstation.com/eugeneshi" target="_blank">Eugene Shishkin's UI/UX Concepts (ArtStation)</a> - *Images used in Home tab.*</li>
+            <li>Other images sourced from official press kits and promotional materials.</li>
+        </ul>
+        <p>This project is for educational and demonstrative purposes only, showcasing UI/UX design concepts within the Starfield aesthetic. No commercial use is intended or implied.</p>
       </div>
 
     </main>
   </div>
 
   <footer>
-    <p>&copy; 2025 Constellation Archives. All rights reserved.</p>
+    <p>&copy; 2025 Constellation Archives. All rights reserved. UI Concept by [Your Name Here]</p>
   </footer>
 
+  <div id="myLightbox" class="lightbox">
+    <span class="close-lightbox">&times;</span>
+    <img class="lightbox-content" id="lightboxImg" src="">
+  </div>
+
   <script>
-    // 
-    // ========================================
-    // TAB INTERACTIVITY LOGIC
-    // - You do not need to edit this.
-    // - It works automatically based on the 'data-tab'
-    //   and 'id' attributes in the HTML.
-    // ========================================
-    // 
     document.addEventListener('DOMContentLoaded', () => {
+      // ========================================
+      // TAB INTERACTIVITY LOGIC
+      // ========================================
       const tabContainer = document.querySelector('.tab-container');
       const tabButtons = document.querySelectorAll('.tab-button');
       const tabContents = document.querySelectorAll('.tab-content');
@@ -252,14 +519,11 @@
       tabContainer.addEventListener('click', (e) => {
         const clicked = e.target.closest('.tab-button');
         
-        // If the click wasn't on a button, do nothing
         if (!clicked) return;
 
-        // Get the target tab ID from the button's data attribute
         const targetId = clicked.dataset.tab;
         const targetContent = document.getElementById(targetId);
 
-        // 1. Deactivate all buttons and content
         tabButtons.forEach(button => {
           button.classList.remove('active');
         });
@@ -267,10 +531,64 @@
           content.classList.remove('active');
         });
 
-        // 2. Activate the clicked button and its corresponding content
         clicked.classList.add('active');
         if (targetContent) {
           targetContent.classList.add('active');
+        }
+      });
+
+      // ========================================
+      // LOADING SCREEN LOGIC
+      // ========================================
+      const loadingScreen = document.querySelector('.loading-screen');
+      const body = document.body;
+
+      // Ensure content is initially hidden or at least not interactive before load
+      body.style.visibility = 'hidden'; 
+      body.style.opacity = '0';
+
+      window.addEventListener('load', () => {
+        // Wait a small moment to show the loading screen, then start curtain animation
+        setTimeout(() => {
+          loadingScreen.classList.add('hidden'); // Trigger the curtain animation
+          
+          // After the animation, fully remove the loading screen and show content
+          loadingScreen.addEventListener('animationend', () => {
+            loadingScreen.style.display = 'none';
+            body.classList.remove('loading');
+            body.style.visibility = 'visible';
+            body.style.opacity = '1';
+            // Trigger a reflow to ensure fadeIn animation works for initial tab
+            requestAnimationFrame(() => {
+                document.querySelector('.tab-content.active').classList.remove('active');
+                document.querySelector('.tab-content.active').classList.add('active');
+            });
+          }, { once: true }); // Ensure this listener only runs once
+        }, 500); // Small delay to ensure loading screen is seen
+      });
+
+      // ========================================
+      // LIGHTBOX IMAGE EXPANSION LOGIC
+      // ========================================
+      const lightbox = document.getElementById('myLightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const closeLightbox = document.querySelector('.close-lightbox');
+      const contentImages = document.querySelectorAll('.content-with-image img');
+
+      contentImages.forEach(img => {
+        img.addEventListener('click', () => {
+          lightbox.style.display = 'flex'; // Use flex to center
+          lightboxImg.src = img.src;
+        });
+      });
+
+      closeLightbox.addEventListener('click', () => {
+        lightbox.style.display = 'none';
+      });
+
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) { // Close if clicked outside image but within lightbox
+          lightbox.style.display = 'none';
         }
       });
     });
