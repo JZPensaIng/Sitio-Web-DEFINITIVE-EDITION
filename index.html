@@ -72,7 +72,6 @@
       height: 100%;
       z-index: -1; 
       pointer-events: none;
-      /* Sparse and randomized pattern */
       background: 
         radial-gradient(1px 1px at 15% 25%, var(--color-text), rgba(255,255,255,0)),
         radial-gradient(2.5px 2.5px at 70% 80%, var(--color-text), rgba(255,255,255,0)),
@@ -128,7 +127,7 @@
     }
 
     /* ========================================
-    TAB SYSTEM
+    NAVIGATION & TABS
     ========================================
     */
     .tab-container {
@@ -174,134 +173,189 @@
     .tab-content.active {
       display: block;
     }
+    
+    /* CONTEXTUAL NAVIGATION STYLES */
+    .contextual-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--color-border);
+        /* Initially hidden by JS when home is active */
+    }
+    
+    .contextual-nav button {
+        font-family: var(--font-primary);
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: var(--color-accent);
+        background: none;
+        border: 1px solid var(--color-accent);
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s;
+        letter-spacing: 1px;
+    }
+
+    .contextual-nav button:hover:not(:disabled) {
+        background-color: var(--color-accent);
+        color: var(--color-bg);
+    }
+    
+    .contextual-nav button:disabled {
+        opacity: 0.5;
+        cursor: default;
+        border-color: var(--color-border);
+        color: var(--color-border);
+    }
+    
+    .contextual-nav .current-tab-title {
+        font-family: var(--font-primary);
+        font-size: 1.2rem;
+        color: var(--color-text);
+    }
+
+
+    /* ========================================
+    HOME TAB LAYOUT (PROJECT LIST)
+    ========================================
+    */
+    .project-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .project-item {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--color-border);
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .project-item:hover {
+        background-color: rgba(232, 216, 144, 0.05); /* Subtle hover */
+    }
+
+    .project-item:first-child {
+        border-top: 1px solid var(--color-border);
+    }
+    
+    .project-item-img {
+        flex-shrink: 0; /* Prevents image from shrinking */
+        width: 150px;
+        height: 100px;
+        overflow: hidden;
+        border-radius: 8px; /* Rounded corners */
+        border: 2px solid var(--color-border);
+    }
+
+    .project-item-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .project-info {
+        flex-grow: 1;
+    }
+
+    .project-info h3 {
+        font-family: var(--font-primary);
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-accent);
+        margin: 0 0 5px 0;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .project-info p {
+        margin: 0;
+        font-size: 1.05rem;
+        line-height: 1.5;
+    }
+
+    .project-date {
+        font-size: 0.9rem;
+        color: #888;
+        margin-top: 5px;
+        font-style: italic;
+    }
+    
+    /* References specific styling inside Home */
+    .references-link {
+        display: block;
+        text-align: right;
+        margin-top: 30px;
+        font-family: var(--font-primary);
+    }
+
+    .references-link a {
+        color: var(--color-accent);
+        text-decoration: none;
+        transition: color 0.2s ease-out;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .references-link a:hover {
+        color: var(--color-accent-hover);
+        text-decoration: underline;
+    }
+
+
+    /* ========================================
+    OTHER CONTENT STYLES (Kept for completeness)
+    ========================================
+    */
+    .tab-content h2 {
+      font-family: var(--font-primary);
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--color-accent);
+      margin-top: 0;
+      margin-bottom: 25px;
+    }
+    /* Rest of content styles omitted for brevity */
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
     
-    /* ========================================
-    PROJECT ITEM STYLING (NEW REQUIREMENT)
-    ========================================
-    */
-    .project-item {
+    .content-with-image {
         display: flex;
-        gap: 30px;
+        flex-direction: column;
         margin-bottom: 40px;
-        padding-bottom: 20px;
-        border-bottom: 1px dashed rgba(232, 216, 144, 0.2); /* Faint accent line */
     }
+    /* Rest of content-with-image styles omitted for brevity */
 
-    .project-item:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
+    /* Lightbox styles omitted for brevity */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
     }
-    
-    .project-image {
-        flex: 0 0 300px; /* Fixed width for the image container */
-        height: 200px; /* Fixed height for consistent layout */
-        overflow: hidden;
-        border-radius: 8px; /* Rounded corners for the image container */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    }
+    .lightbox-content { max-width: 90%; max-height: 90%; object-fit: contain; }
+    .close-lightbox { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; }
 
-    .project-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Ensures image covers the container without distortion */
-        display: block;
-        transition: transform 0.3s ease-in-out;
-    }
-    
-    .project-image img:hover {
-        transform: scale(1.05);
-    }
-
-    .project-details {
-        flex: 1;
-    }
-
-    .project-details h3 {
-        font-family: var(--font-primary);
-        font-size: 1.5rem;
-        color: var(--color-accent-hover);
-        margin-top: 0;
-        margin-bottom: 5px;
-    }
-    
-    .project-details .date-tag {
-        font-family: var(--font-secondary);
-        font-size: 0.9rem;
-        color: var(--color-accent);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        display: block;
-        margin-bottom: 15px;
-    }
-
-    .project-details p {
-        font-size: 1.05rem;
-        line-height: 1.6;
-    }
-
-    /* Styles for the HOME guide list */
-    #home h2 {
-        font-family: var(--font-primary);
-        font-size: 2.2rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        color: var(--color-accent);
-        margin-top: 0;
-        margin-bottom: 25px;
-    }
-    
-    #home ul {
-        list-style: none;
-        padding: 0;
-    }
-    
-    #home li {
-        margin-bottom: 15px;
-    }
-    
-    #home li a {
-        display: inline-block;
-        font-family: var(--font-primary);
-        font-size: 1.5rem;
-        color: var(--color-text);
-        text-decoration: none;
-        padding: 8px 15px;
-        border-left: 3px solid var(--color-accent);
-        transition: color 0.2s, background-color 0.2s;
-    }
-    
-    #home li a:hover {
-        color: var(--color-accent-hover);
-        background-color: rgba(232, 216, 144, 0.05);
-    }
-
-    /* References specific styling */
-    #references ul {
-        list-style: none;
-        padding: 0;
-    }
-    #references li {
-        margin-bottom: 15px;
-        font-size: 1.05rem;
-    }
-    #references a {
-        color: var(--color-accent);
-        text-decoration: none;
-        transition: color 0.2s ease-out;
-    }
-    #references a:hover {
-        color: var(--color-accent-hover);
-        text-decoration: underline;
-    }
 
     /* ========================================
-    FOOTER
+    FOOTER & LOADING SCREEN
     ========================================
     */
     footer {
@@ -315,18 +369,14 @@
       letter-spacing: 1px;
       text-transform: uppercase;
     }
-
-    /* ========================================
-    LOADING SCREEN
-    ========================================
-    */
+    
     .loading-screen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: var(--color-text); 
+      background-color: var(--color-text);
       z-index: 10000;
       display: flex;
       align-items: center;
@@ -367,18 +417,6 @@
         100% { transform: translateY(-100%); opacity: 0; visibility: hidden; }
     }
 
-    @media (max-width: 768px) {
-        .project-item {
-            flex-direction: column;
-            gap: 20px;
-        }
-        .project-image {
-            flex: none;
-            width: 100%;
-            height: 250px;
-        }
-    }
-
   </style>
 </head>
 <body>
@@ -394,6 +432,13 @@
     </header>
 
     <div class="container">
+      
+      <nav class="contextual-nav" style="display: none;">
+          <button id="btn-back-home">← Volver al Menú Principal</button>
+          <span class="current-tab-title"></span>
+          <button id="btn-next-tab">Siguiente Misión →</button>
+      </nav>
+
       <nav class="tab-container">
         <button class="tab-button active" data-tab="home">Home</button>
         <button class="tab-button" data-tab="mission">Mission</button>
@@ -405,111 +450,98 @@
       <main class="content-container">
 
         <div class="tab-content active" id="home">
-          <h2>Constellation Guide Menu</h2>
-          <p>Bienvenido al archivo de Constellation. Utiliza el menú de abajo para navegar por los diferentes sistemas y proyectos de investigación. Cada sección proporciona un informe detallado con información crítica.</p>
+          <h2>Constellation Projects & Archives</h2>
+          <p>Explora los archivos de Constellation y nuestras misiones activas en los Sistemas Colonizados.</p>
           
-          <ul>
-              <li><a href="#" class="tab-link" data-target-tab="mission">Misión: Tareas Activas y Prioritarias</a></li>
-              <li><a href="#" class="tab-link" data-target-tab="codex">Codex: Facciones y Lugares (Archivos de la U.C.)</a></li>
-              <li><a href="#" class="tab-link" data-target-tab="system">Sistema: Estado de Nave y Equipamiento</a></li>
-              <li><a href="#" class="tab-link" data-target-tab="references">Referencias: Agradecimientos y Enlaces</a></li>
+          <ul class="project-list">
+              
+              <li class="project-item" data-target-tab="mission">
+                  <div class="project-item-img">
+                      <img src="https://cdn.wccftech.com/wp-content/uploads/2023/06/Starfield-Gameplay-Screenshot-002-12-scaled.jpg" alt="Mission Astronaut">
+                  </div>
+                  <div class="project-info">
+                      <h3>Mission Debrief: Artifact Retrieval</h3>
+                      <p>Nuestro principal objetivo es asegurar los Artefactos restantes. Su poder es innegable. Informe de inteligencia sobre el sistema Cheyenne.</p>
+                      <div class="project-date">Publicado: 2025.01.10</div>
+                  </div>
+              </li>
+              
+              <li class="project-item" data-target-tab="codex">
+                  <div class="project-item-img">
+                      <img src="https://images.gnwcdn.com/2023/articles/2023-08-31-09-54/starfield-release-date-times-preload-new-zealand-pc-xbox-game-pass-1693462479633.jpg/PRM/2000/H2000/CR0,0,2000,1051/FIXED/1693462479633.jpg" alt="New Atlantis">
+                  </div>
+                  <div class="project-info">
+                      <h3>Codex: United Colonies</h3>
+                      <p>La facción militar y política más poderosa. Análisis de su flota, territorio y las tensas relaciones con el Colectivo Freestar.</p>
+                      <div class="project-date">Actualizado: 2025.01.25</div>
+                  </div>
+              </li>
+
+              <li class="project-item" data-target-tab="system">
+                  <div class="project-item-img">
+                      <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="System Board">
+                  </div>
+                  <div class="project-info">
+                      <h3>System Status & Diagnostics</h3>
+                      <p>Estado nominal del equipo. Revisión de cartas de navegación y lecturas gravimétricas para el próximo salto de la nave.</p>
+                      <div class="project-date">Revisión: 2025.02.01</div>
+                  </div>
+              </li>
+
           </ul>
+
+          <div class="references-link">
+              <a href="#" data-tab="references" class="tab-button-link">Referencias y Créditos al final de la lista →</a>
+          </div>
         </div>
 
         <div class="tab-content" id="mission">
-          <h2>Misión: Tareas Activas y Prioritarias</h2>
+          <h2>Mission Debrief</h2>
+          <p>Our primary objective is to secure the remaining Artifacts. Their purpose is unknown, but their power is undeniable. Intelligence suggests recent activity in the Cheyenne system. Your task is to investigate, report, and secure any findings.</p>
           
-          <div class="project-item">
-              <div class="project-image">
-                  <img src="-1.jpg" alt="Spaceship interior cockpit">
-              </div>
-              <div class="project-details">
-                  <h3>Investigación de Anomalías Gravitacionales</h3>
-                  <span class="date-tag">Publicado: 27/09/23 | Estatus: ACTIVO</span>
-                  <p>Informe preliminar sobre las distorsiones de la unidad de gravedad en el sistema Cheyenne. Se requiere una inmersión profunda para identificar la fuente de las anomalías y determinar si están relacionadas con los Artefactos.</p>
-              </div>
-          </div>
-          
-          <div class="project-item">
-              <div class="project-image">
-                  <img src="still-0d11fd1512fde3f73e28149d21cbf81d.webp" alt="Astronaut examining flora on a planet">
-              </div>
-              <div class="project-details">
-                  <h3>Estudio Biológico de la Flora de Akila</h3>
-                  <span class="date-tag">Publicado: 15/08/23 | Estatus: EN CURSO</span>
-                  <p>Documentación de las formas de vida vegetal hostiles encontradas en el planeta Akila. El objetivo es catalogar cualquier uso potencial (médico o militar) y desarrollar contramedidas para el personal de campo.</p>
-              </div>
+          <div class="content-with-image">
+              <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus.</p>
+              <img src="https://cdn.wccftech.com/wp-content/uploads/2023/06/Starfield-Gameplay-Screenshot-002-12-scaled.jpg" alt="Astronaut in Starfield">
           </div>
         </div>
 
         <div class="tab-content" id="codex">
-          <h2>Codex: Facciones y Lugares</h2>
+          <h2>Codex: United Colonies</h2>
+          <p>The United Colonies (UC) is the most powerful, established military and political faction in the Settled Systems. Based in New Atlantis on the planet Jemison, the UC embodies the spirit of a centralized, law-abiding republic.</p>
           
-          <div class="project-item">
-              <div class="project-image">
-                  <img src="8f0020a7eef449709807cc28a58c1006.jpg" alt="New Atlantis cityscape from above">
-              </div>
-              <div class="project-details">
-                  <h3>Perfil de la Colonia Capital: Nueva Atlántida</h3>
-                  <span class="date-tag">Publicado: 01/01/23 | Última Actualización: 01/10/23</span>
-                  <p>Análisis detallado de la infraestructura, economía y estructura política de Nueva Atlántida. Se enfatizan las zonas de acceso restringido para miembros de Constellation y puntos clave de contacto en la UC Vanguardia.</p>
-              </div>
-          </div>
-          
-          <div class="project-item">
-              <div class="project-image">
-                  <img src="https://assets-prd.ignimgs.com/2022/06/12/starfield-screenshot-001-1655060413000.jpg" alt="Starfield Alien Landscape">
-              </div>
-              <div class="project-details">
-                  <h3>Ficha de Datos: El Colectivo Freestar</h3>
-                  <span class="date-tag">Publicado: 20/07/22 | Versión: 3.1</span>
-                  <p>Resumen de las fuerzas, bases principales y filosofía del Colectivo Freestar. Incluye un historial de conflictos con la UC y protocolos de interacción recomendados para evitar hostilidades no deseadas.</p>
-              </div>
+          <div class="content-with-image">
+              <p>They maintain a large, disciplined fleet and control vast territories. While seen as a beacon of stability by some, others view their expansion and bureaucracy with suspicion. Relations with the Freestar Collective remain tense after the Colony War, but a fragile peace currently holds.</p>
+              <img src="https://images.gnwcdn.com/2023/articles/2023-08-31-09-54/starfield-release-date-times-preload-new-zealand-pc-xbox-game-pass-1693462479633.jpg/PRM/2000/H2000/CR0,0,2000,1051/FIXED/1693462479633.jpg" alt="New Atlantis Cityscape">
           </div>
         </div>
 
         <div class="tab-content" id="system">
-          <h2>Sistema: Estado de Nave y Equipamiento</h2>
-
-          <div class="project-item">
-              <div class="project-image">
-                  <img src="https://cdna.artstation.com/p/assets/images/images/051/087/915/large/eugene-shishkin-screenshot-00001.jpg?1656511128" alt="Starfield Inventory UI">
-              </div>
-              <div class="project-details">
-                  <h3>Reporte de Inventario de Carga (Actual)</h3>
-                  <span class="date-tag">Publicado: 27/09/23 | Estatus: REQUERIDO</span>
-                  <p>Lista automatizada de todo el equipo almacenado en la nave, incluyendo armas, armaduras y recursos. Prioridad de verificación para los suministros de combustible y las células de energía de emergencia.</p>
-              </div>
-          </div>
-
-          <div class="project-item">
-              <div class="project-image">
-                  <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="Starfield Mission Board">
-              </div>
-              <div class="project-details">
-                  <h3>Diagnóstico del Motor Gravítico</h3>
-                  <span class="date-tag">Publicado: 25/09/23 | Estatus: ÓPTIMO</span>
-                  <p>Registro de eficiencia y rendimiento del motor Gravítico. Análisis de la potencia consumida en el último salto intersistémico y verificación de las tolerancias estructurales después de la última turbulencia.</p>
-              </div>
+          <h2>System Status</h2>
+          <p>All systems nominal. Ship integrity at 100%. Grav-drive spooling is optimal. Reviewing navigational charts for the Alpha Centauri system. Environmental controls are stable, maintaining optimal life support for all crew.</p>
+          
+          <div class="content-with-image">
+              <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
+              <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="Starfield Mission Board">
           </div>
         </div>
 
         <div class="tab-content" id="references">
-          <h2>Referencias & Fuentes</h2>
+          <h2>References & Sources</h2>
           <p>This page is a fan-made UI concept inspired by Bethesda Game Studios' Starfield. All trademarks, copyrights, and intellectual property related to Starfield belong to ZeniMax Media Inc. and Bethesda Softworks LLC.</p>
           <ul>
               <li><a href="https://bethesda.net/en/game/starfield" target="_blank">Official Starfield Website</a></li>
               <li><a href="https://starfield.fandom.com/wiki/Starfield_Wiki" target="_blank">Starfield Wiki (Fandom)</a></li>
-              <li>Imágenes subidas: -1.jpg, still-0d11fd1512fde3f73e28149d21cbf81d.webp, 8f0020a7eef449709807cc28a58c1006.jpg.</li>
+              <li><a href="https://www.artstation.com/eugeneshi" target="_blank">Eugene Shishkin's UI/UX Concepts (ArtStation)</a> - *Images used in Home tab.*</li>
+              <li>Other images sourced from official press kits and promotional materials.</li>
           </ul>
-          <p>Este proyecto es solo para fines de demostración de diseño UI/UX. No se pretende ni se implica uso comercial.</p>
+          <p>This project is for educational and demonstrative purposes only, showcasing UI/UX design concepts within the Starfield aesthetic. No commercial use is intended or implied.</p>
         </div>
 
       </main>
     </div>
 
     <footer>
-      <p>&copy; 2025 Constellation Archives. Todos los derechos reservados.</p>
+      <p>&copy; 2025 Constellation Archives. All rights reserved. UI Concept by [Your Name Here]</p>
     </footer>
 
   </div> <div id="myLightbox" class="lightbox">
@@ -519,113 +551,170 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // ========================================
-      // TAB INTERACTIVITY LOGIC
-      // ========================================
-      const tabContainer = document.querySelector('.tab-container');
-      const tabButtons = document.querySelectorAll('.tab-button');
-      const tabContents = document.querySelectorAll('.tab-content');
-      const homeLinks = document.querySelectorAll('#home .tab-link');
+        
+        // ========================================
+        // CORE ELEMENTS & CONFIGURATION
+        // ========================================
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const contextualNav = document.querySelector('.contextual-nav');
+        const btnBackHome = document.getElementById('btn-back-home');
+        const btnNextTab = document.getElementById('btn-next-tab');
+        const currentTabTitle = document.querySelector('.current-tab-title');
+        const contentImages = document.querySelectorAll('.content-with-image img');
+        
+        // Define the order of the main tabs (excluding home, which is special)
+        const tabOrder = ['mission', 'codex', 'system', 'references'];
 
-      function switchTab(targetId) {
-          const targetButton = document.querySelector(`.tab-button[data-tab="${targetId}"]`);
-          const targetContent = document.getElementById(targetId);
 
-          if (!targetButton || !targetContent) return;
-
-          tabButtons.forEach(button => button.classList.remove('active'));
-          tabContents.forEach(content => content.classList.remove('active'));
-
-          targetButton.classList.add('active');
-          
-          // Re-trigger fadeIn animation for smooth transition
-          targetContent.classList.remove('active');
-          void targetContent.offsetWidth; 
-          targetContent.classList.add('active');
-      }
-
-      // 1. Navigation bar click (menu principal)
-      if (tabContainer) {
-        tabContainer.addEventListener('click', (e) => {
-          const clicked = e.target.closest('.tab-button');
-          if (clicked) {
-            const targetId = clicked.dataset.tab;
-            switchTab(targetId);
-          }
-        });
-      }
-      
-      // 2. Home Guide Links click (menu dentro del home)
-      homeLinks.forEach(link => {
-          link.addEventListener('click', (e) => {
-              e.preventDefault();
-              const targetId = link.dataset.targetTab;
-              switchTab(targetId);
-          });
-      });
-
-      // ========================================
-      // LOADING SCREEN LOGIC
-      // ========================================
-      const loadingScreen = document.querySelector('.loading-screen');
-      const contentWrapper = document.querySelector('.content-wrapper');
-
-      window.addEventListener('load', () => {
-        if (loadingScreen && contentWrapper) {
-          setTimeout(() => {
-            loadingScreen.classList.add('hidden'); 
+        /**
+         * Switches the active tab content and updates the navigation state.
+         * @param {string} targetId - The ID of the tab content to activate.
+         */
+        function switchTab(targetId) {
             
-            loadingScreen.addEventListener('animationend', () => {
-              loadingScreen.style.display = 'none';
-              
-              contentWrapper.style.visibility = 'visible';
-              contentWrapper.style.opacity = '1';
-
-              // Ensure initial tab animation runs
-              requestAnimationFrame(() => {
-                const activeTab = document.querySelector('.tab-content.active');
-                if (activeTab) {
-                    activeTab.classList.remove('active');
-                    void activeTab.offsetWidth; 
-                    activeTab.classList.add('active');
+            // 1. Update Tab Buttons (Top Navigation)
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.dataset.tab === targetId) {
+                    button.classList.add('active');
                 }
-              });
-            }, { once: true });
-          }, 500); 
-        } else if (contentWrapper) {
-            contentWrapper.style.visibility = 'visible';
-            contentWrapper.style.opacity = '1';
+            });
+
+            // 2. Update Tab Content
+            tabContents.forEach(content => {
+                // Force re-animation by removing and adding active class
+                if (content.classList.contains('active')) {
+                    content.classList.remove('active');
+                    // Force reflow for fade-in animation
+                    void content.offsetWidth;
+                }
+            });
+            const targetContent = document.getElementById(targetId);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+
+            // 3. Update Contextual Navigation
+            const isHome = targetId === 'home';
+            contextualNav.style.display = isHome ? 'none' : 'flex';
+
+            if (!isHome) {
+                const currentTabIndex = tabOrder.indexOf(targetId);
+                const nextTabIndex = currentTabIndex + 1;
+                const nextTabId = tabOrder[nextTabIndex];
+
+                // Update title
+                currentTabTitle.textContent = targetId.toUpperCase();
+
+                // Update next button
+                if (nextTabId) {
+                    btnNextTab.textContent = `Siguiente: ${nextTabId.toUpperCase()} →`;
+                    btnNextTab.dataset.targetTab = nextTabId;
+                    btnNextTab.disabled = false;
+                } else {
+                    btnNextTab.textContent = 'Fin del Archivo';
+                    btnNextTab.dataset.targetTab = '';
+                    btnNextTab.disabled = true;
+                }
+            }
         }
-      });
 
-      // ========================================
-      // LIGHTBOX IMAGE EXPANSION LOGIC
-      // ========================================
-      // Note: Lightbox functionality needs updating to work with the new .project-image structure,
-      // but keeping it simple for now based on current logic.
-      const lightbox = document.getElementById('myLightbox');
-      const lightboxImg = document.getElementById('lightboxImg');
-      const closeLightbox = document.querySelector('.close-lightbox');
-      const projectImages = document.querySelectorAll('.project-image img'); // Target project images
 
-      if (lightbox && lightboxImg && closeLightbox) {
-        projectImages.forEach(img => {
-          img.addEventListener('click', () => {
-            lightbox.style.display = 'flex';
-            lightboxImg.src = img.src;
-          });
+        // ========================================
+        // EVENT LISTENERS
+        // ========================================
+        
+        // 1. Top Tab Navigation (Handles clicks on top buttons)
+        document.querySelector('.tab-container').addEventListener('click', (e) => {
+            const clicked = e.target.closest('.tab-button');
+            if (!clicked) return;
+            switchTab(clicked.dataset.tab);
+        });
+        
+        // 2. Home Project List (Handles clicks on home items)
+        document.querySelector('.project-list').addEventListener('click', (e) => {
+            const clicked = e.target.closest('.project-item');
+            if (!clicked) return;
+            switchTab(clicked.dataset.targetTab);
         });
 
-        closeLightbox.addEventListener('click', () => {
-          lightbox.style.display = 'none';
+        // 3. Home References Link (If they click the link inside Home)
+        document.querySelector('.references-link a').addEventListener('click', (e) => {
+            e.preventDefault();
+            switchTab('references');
         });
 
-        lightbox.addEventListener('click', (e) => {
-          if (e.target === lightbox) {
-            lightbox.style.display = 'none';
-          }
+        // 4. Contextual Navigation (Back Home button)
+        btnBackHome.addEventListener('click', () => {
+            switchTab('home');
         });
-      }
+
+        // 5. Contextual Navigation (Next Tab button)
+        btnNextTab.addEventListener('click', () => {
+            const target = btnNextTab.dataset.targetTab;
+            if (target) {
+                switchTab(target);
+            }
+        });
+
+
+        // ========================================
+        // INITIALIZATION & LOADING SCREEN
+        // ========================================
+        const loadingScreen = document.querySelector('.loading-screen');
+        const contentWrapper = document.querySelector('.content-wrapper');
+
+        window.addEventListener('load', () => {
+            if (loadingScreen && contentWrapper) {
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                    
+                    loadingScreen.addEventListener('animationend', () => {
+                        loadingScreen.style.display = 'none';
+                        
+                        contentWrapper.style.visibility = 'visible';
+                        contentWrapper.style.opacity = '1';
+
+                        // Ensure 'home' tab is correctly set up after loading
+                        requestAnimationFrame(() => {
+                            switchTab('home');
+                        });
+                    }, { once: true });
+                }, 500); 
+            } else if (contentWrapper) {
+                contentWrapper.style.visibility = 'visible';
+                contentWrapper.style.opacity = '1';
+                switchTab('home'); // Failsafe
+            }
+        });
+
+
+        // ========================================
+        // LIGHTBOX LOGIC
+        // ========================================
+        const lightbox = document.getElementById('myLightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const closeLightbox = document.querySelector('.close-lightbox');
+
+        if (lightbox && lightboxImg && closeLightbox) {
+            contentImages.forEach(img => {
+                img.addEventListener('click', () => {
+                    lightbox.style.display = 'flex';
+                    lightboxImg.src = img.src;
+                });
+            });
+
+            closeLightbox.addEventListener('click', () => {
+                lightbox.style.display = 'none';
+            });
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    lightbox.style.display = 'none';
+                }
+            });
+        }
     });
   </script>
 
