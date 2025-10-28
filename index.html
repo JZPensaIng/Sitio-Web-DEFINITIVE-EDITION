@@ -72,13 +72,13 @@
       height: 100%;
       z-index: -1; 
       pointer-events: none;
-      /* FIX: Reduced number of stars to 4 and increased background-size for sparsity and randomness */
+      /* Sparse and randomized pattern */
       background: 
         radial-gradient(1px 1px at 15% 25%, var(--color-text), rgba(255,255,255,0)),
         radial-gradient(2.5px 2.5px at 70% 80%, var(--color-text), rgba(255,255,255,0)),
         radial-gradient(1.5px 1.5px at 45% 10%, var(--color-text), rgba(255,255,255,0)),
         radial-gradient(2px 2px at 90% 40%, var(--color-text), rgba(255,255,255,0));
-      background-size: 600px 600px; /* Greatly increased tile size to hide repetition */
+      background-size: 600px 600px; 
       opacity: 0.2;
       animation: starMove 100s linear infinite;
     }
@@ -128,7 +128,7 @@
     }
 
     /* ========================================
-    TAB SYSTEM & CONTENT
+    TAB SYSTEM
     ========================================
     */
     .tab-container {
@@ -180,39 +180,125 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
-    .content-with-image {
+    /* ========================================
+    PROJECT ITEM STYLING (NEW REQUIREMENT)
+    ========================================
+    */
+    .project-item {
         display: flex;
-        flex-direction: column;
+        gap: 30px;
         margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 1px dashed rgba(232, 216, 144, 0.2); /* Faint accent line */
     }
 
-    .content-with-image img {
-        max-width: 100%;
-        height: auto;
+    .project-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+    
+    .project-image {
+        flex: 0 0 300px; /* Fixed width for the image container */
+        height: 200px; /* Fixed height for consistent layout */
+        overflow: hidden;
+        border-radius: 8px; /* Rounded corners for the image container */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensures image covers the container without distortion */
         display: block;
-        margin-top: 20px;
-        border: 1px solid var(--color-border);
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-        cursor: pointer;
-        transition: transform 0.2s ease-in-out;
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .project-image img:hover {
+        transform: scale(1.05);
     }
 
-    /* Lightbox styles */
-    .lightbox {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
-      align-items: center;
-      justify-content: center;
+    .project-details {
+        flex: 1;
     }
-    .lightbox-content { max-width: 90%; max-height: 90%; object-fit: contain; }
-    .close-lightbox { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; }
 
+    .project-details h3 {
+        font-family: var(--font-primary);
+        font-size: 1.5rem;
+        color: var(--color-accent-hover);
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+    
+    .project-details .date-tag {
+        font-family: var(--font-secondary);
+        font-size: 0.9rem;
+        color: var(--color-accent);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: block;
+        margin-bottom: 15px;
+    }
+
+    .project-details p {
+        font-size: 1.05rem;
+        line-height: 1.6;
+    }
+
+    /* Styles for the HOME guide list */
+    #home h2 {
+        font-family: var(--font-primary);
+        font-size: 2.2rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: var(--color-accent);
+        margin-top: 0;
+        margin-bottom: 25px;
+    }
+    
+    #home ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    #home li {
+        margin-bottom: 15px;
+    }
+    
+    #home li a {
+        display: inline-block;
+        font-family: var(--font-primary);
+        font-size: 1.5rem;
+        color: var(--color-text);
+        text-decoration: none;
+        padding: 8px 15px;
+        border-left: 3px solid var(--color-accent);
+        transition: color 0.2s, background-color 0.2s;
+    }
+    
+    #home li a:hover {
+        color: var(--color-accent-hover);
+        background-color: rgba(232, 216, 144, 0.05);
+    }
+
+    /* References specific styling */
+    #references ul {
+        list-style: none;
+        padding: 0;
+    }
+    #references li {
+        margin-bottom: 15px;
+        font-size: 1.05rem;
+    }
+    #references a {
+        color: var(--color-accent);
+        text-decoration: none;
+        transition: color 0.2s ease-out;
+    }
+    #references a:hover {
+        color: var(--color-accent-hover);
+        text-decoration: underline;
+    }
 
     /* ========================================
     FOOTER
@@ -231,7 +317,7 @@
     }
 
     /* ========================================
-    LOADING SCREEN (FIX: SPARSE STARS)
+    LOADING SCREEN
     ========================================
     */
     .loading-screen {
@@ -240,7 +326,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: var(--color-text); /* White/Cream background */
+      background-color: var(--color-text); 
       z-index: 10000;
       display: flex;
       align-items: center;
@@ -252,7 +338,6 @@
       animation: curtainClose 1.5s forwards;
     }
 
-    /* Star animation for loading screen - BLACK, sparse, transparent */
     .loading-screen::before {
       content: '';
       position: absolute;
@@ -260,14 +345,13 @@
       left: 0;
       width: 100%;
       height: 100%;
-      /* FIX: Reduced number of stars to 5 and increased background-size for sparsity */
       background: 
         radial-gradient(3px 3px at 10% 20%, #000, rgba(0,0,0,0)),
         radial-gradient(2px 2px at 40% 60%, #000, rgba(0,0,0,0)),
         radial-gradient(4px 4px at 75% 30%, #000, rgba(0,0,0,0)),
         radial-gradient(2px 2px at 95% 85%, #000, rgba(0,0,0,0)),
         radial-gradient(3px 3px at 55% 5%, #000, rgba(0,0,0,0));
-      background-size: 200px 200px; /* Increased tile size */
+      background-size: 200px 200px; 
       opacity: 0.5;
       animation: loadingStarMove 5s linear infinite;
     }
@@ -277,11 +361,22 @@
       to { background-position: 500px 500px; }
     }
 
-    /* Curtain animation (opening) */
     @keyframes curtainClose {
         0% { transform: translateY(0); opacity: 1; }
         50% { opacity: 1; }
         100% { transform: translateY(-100%); opacity: 0; visibility: hidden; }
+    }
+
+    @media (max-width: 768px) {
+        .project-item {
+            flex-direction: column;
+            gap: 20px;
+        }
+        .project-image {
+            flex: none;
+            width: 100%;
+            height: 250px;
+        }
     }
 
   </style>
@@ -310,118 +405,111 @@
       <main class="content-container">
 
         <div class="tab-content active" id="home">
-          <h2>Welcome to Constellation</h2>
-          <p>You've found your way to Constellation. We're an organization of explorers, scientists, and adventurers united by a common purpose: to uncover the mysteries of the galaxy. What you've found is the key to everything.</p>
+          <h2>Constellation Guide Menu</h2>
+          <p>Bienvenido al archivo de Constellation. Utiliza el menú de abajo para navegar por los diferentes sistemas y proyectos de investigación. Cada sección proporciona un informe detallado con información crítica.</p>
           
-          <div class="content-with-image">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam arcu sed eros.</p>
-              <img src="https://cdna.artstation.com/p/assets/images/images/051/087/905/large/eugene-shishkin-screenshot-00000.jpg?1656511116" alt="Starfield Spaceship UI Concept">
-          </div>
-
-          <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>
-
-          <div class="content-with-image">
-              <p>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi. Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat.</p>
-              <img src="https://cdnb.artstation.com/p/assets/images/images/051/087/928/large/eugene-shishkin-screenshot-00005.jpg?1656511145" alt="Starfield Planet Scan UI">
-          </div>
-
-          <p>Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus.</p>
-
-          <div class="content-with-image">
-              <p>Nunc a sapien. Cras interdum sollicitudin ante. Maecenas non turpis vitae elit dapibus efficitur. Mauris vitae libero quis ante venenatis imperdiet sed in purus. Aliquam vitae metus vel elit volutpat aliquet at vitae turpis.</p>
-              <img src="https://cdna.artstation.com/p/assets/images/images/051/087/915/large/eugene-shishkin-screenshot-00001.jpg?1656511128" alt="Starfield Inventory UI">
-          </div>
+          <ul>
+              <li><a href="#" class="tab-link" data-target-tab="mission">Misión: Tareas Activas y Prioritarias</a></li>
+              <li><a href="#" class="tab-link" data-target-tab="codex">Codex: Facciones y Lugares (Archivos de la U.C.)</a></li>
+              <li><a href="#" class="tab-link" data-target-tab="system">Sistema: Estado de Nave y Equipamiento</a></li>
+              <li><a href="#" class="tab-link" data-target-tab="references">Referencias: Agradecimientos y Enlaces</a></li>
+          </ul>
         </div>
 
         <div class="tab-content" id="mission">
-          <h2>Mission Debrief</h2>
-          <p>Our primary objective is to secure the remaining Artifacts. Their purpose is unknown, but their power is undeniable. Intelligence suggests recent activity in the Cheyenne system. Your task is to investigate, report, and secure any findings.</p>
+          <h2>Misión: Tareas Activas y Prioritarias</h2>
           
-          <div class="content-with-image">
-              <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus.</p>
-              <img src="https://cdn.wccftech.com/wp-content/uploads/2023/06/Starfield-Gameplay-Screenshot-002-12-scaled.jpg" alt="Astronaut in Starfield">
+          <div class="project-item">
+              <div class="project-image">
+                  <img src="-1.jpg" alt="Spaceship interior cockpit">
+              </div>
+              <div class="project-details">
+                  <h3>Investigación de Anomalías Gravitacionales</h3>
+                  <span class="date-tag">Publicado: 27/09/23 | Estatus: ACTIVO</span>
+                  <p>Informe preliminar sobre las distorsiones de la unidad de gravedad en el sistema Cheyenne. Se requiere una inmersión profunda para identificar la fuente de las anomalías y determinar si están relacionadas con los Artefactos.</p>
+              </div>
           </div>
-
-          <p>Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi. Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat.</p>
-
-          <div class="content-with-image">
-              <p>Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus.</p>
-              <img src="https://assets-prd.ignimgs.com/2022/06/12/starfield-screenshot-001-1655060413000.jpg" alt="Starfield Alien Landscape">
-          </div>
-
-          <p>Nunc a sapien. Cras interdum sollicitudin ante. Maecenas non turpis vitae elit dapibus efficitur. Mauris vitae libero quis ante venenatis imperdiet sed in purus. Aliquam vitae metus vel elit volutpat aliquet at vitae turpis.</p>
-
-          <div class="content-with-image">
-              <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.</p>
-              <img src="https://www.pcgamesn.com/wp-content/uploads/2023/08/Starfield_E3_SettleSysMap.jpg" alt="Starfield Star Map">
+          
+          <div class="project-item">
+              <div class="project-image">
+                  <img src="still-0d11fd1512fde3f73e28149d21cbf81d.webp" alt="Astronaut examining flora on a planet">
+              </div>
+              <div class="project-details">
+                  <h3>Estudio Biológico de la Flora de Akila</h3>
+                  <span class="date-tag">Publicado: 15/08/23 | Estatus: EN CURSO</span>
+                  <p>Documentación de las formas de vida vegetal hostiles encontradas en el planeta Akila. El objetivo es catalogar cualquier uso potencial (médico o militar) y desarrollar contramedidas para el personal de campo.</p>
+              </div>
           </div>
         </div>
 
         <div class="tab-content" id="codex">
-          <h2>Codex: United Colonies</h2>
-          <p>The United Colonies (UC) is the most powerful, established military and political faction in the Settled Systems. Based in New Atlantis on the planet Jemison, the UC embodies the spirit of a centralized, law-abiding republic.</p>
+          <h2>Codex: Facciones y Lugares</h2>
           
-          <div class="content-with-image">
-              <p>They maintain a large, disciplined fleet and control vast territories. While seen as a beacon of stability by some, others view their expansion and bureaucracy with suspicion. Relations with the Freestar Collective remain tense after the Colony War, but a fragile peace currently holds.</p>
-              <img src="https://images.gnwcdn.com/2023/articles/2023-08-31-09-54/starfield-release-date-times-preload-new-zealand-pc-xbox-game-pass-1693462479633.jpg/PRM/2000/H2000/CR0,0,2000,1051/FIXED/1693462479633.jpg" alt="New Atlantis Cityscape">
+          <div class="project-item">
+              <div class="project-image">
+                  <img src="8f0020a7eef449709807cc28a58c1006.jpg" alt="New Atlantis cityscape from above">
+              </div>
+              <div class="project-details">
+                  <h3>Perfil de la Colonia Capital: Nueva Atlántida</h3>
+                  <span class="date-tag">Publicado: 01/01/23 | Última Actualización: 01/10/23</span>
+                  <p>Análisis detallado de la infraestructura, economía y estructura política de Nueva Atlántida. Se enfatizan las zonas de acceso restringido para miembros de Constellation y puntos clave de contacto en la UC Vanguardia.</p>
+              </div>
           </div>
-
-          <p>The UC Citizens are proud and loyal, benefiting from advanced technology and social stability. However, the rigid structure can feel oppressive to those who value personal freedom above all else, often leading them to the FreAR Collective.</p>
-
-          <div class="content-with-image">
-              <p>Their military prowess is unmatched, with highly trained soldiers and state-of-the-art spacecraft. Recruitment into the UC Navy or Vanguard is a prestigious path, offering a secure career and a chance to defend the core worlds from external threats.</p>
-              <img src="https://sm.ign.com/ign_br/blogroll/s/starfield-/starfield-preview-what-we-saw-in-bethesdas-deep-dive-into-its_ezt9.jpg" alt="UC Vanguard Ship">
-          </div>
-
-          <p>Research and development are heavily funded by the UC, leading to breakthroughs in grav-drive technology, robotics, and terraforming. These advancements solidify their position as the technological leader in the Settled Systems.</p>
-
-          <div class="content-with-image">
-              <p>New Atlantis, the capital, is a sprawling metropolis of towering skyscrapers, verdant parks, and bustling marketplaces. It serves as a hub for trade, diplomacy, and interspecies cooperation, a true testament to human ambition among the stars.</p>
-              <img src="https://www.videogameschronicle.com/files/2023/08/Starfield_Screenshot_NewAtlantis-scaled.jpg" alt="New Atlantis Street">
+          
+          <div class="project-item">
+              <div class="project-image">
+                  <img src="https://assets-prd.ignimgs.com/2022/06/12/starfield-screenshot-001-1655060413000.jpg" alt="Starfield Alien Landscape">
+              </div>
+              <div class="project-details">
+                  <h3>Ficha de Datos: El Colectivo Freestar</h3>
+                  <span class="date-tag">Publicado: 20/07/22 | Versión: 3.1</span>
+                  <p>Resumen de las fuerzas, bases principales y filosofía del Colectivo Freestar. Incluye un historial de conflictos con la UC y protocolos de interacción recomendados para evitar hostilidades no deseadas.</p>
+              </div>
           </div>
         </div>
 
         <div class="tab-content" id="system">
-          <h2>System Status</h2>
-          <p>All systems nominal. Ship integrity at 100%. Grav-drive spooling is optimal. Reviewing navigational charts for the Alpha Centauri system. Environmental controls are stable, maintaining optimal life support for all crew.</p>
-          
-          <div class="content-with-image">
-              <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
-              <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="Starfield Mission Board">
+          <h2>Sistema: Estado de Nave y Equipamiento</h2>
+
+          <div class="project-item">
+              <div class="project-image">
+                  <img src="https://cdna.artstation.com/p/assets/images/images/051/087/915/large/eugene-shishkin-screenshot-00001.jpg?1656511128" alt="Starfield Inventory UI">
+              </div>
+              <div class="project-details">
+                  <h3>Reporte de Inventario de Carga (Actual)</h3>
+                  <span class="date-tag">Publicado: 27/09/23 | Estatus: REQUERIDO</span>
+                  <p>Lista automatizada de todo el equipo almacenado en la nave, incluyendo armas, armaduras y recursos. Prioridad de verificación para los suministros de combustible y las células de energía de emergencia.</p>
+              </div>
           </div>
 
-          <p>Gravimetric readings indicate stable jump vectors to nearby systems. Fuel reserves are at 95%, sufficient for multiple grav-jumps and extensive planetary exploration. Communications array is fully operational, maintaining contact with Constellation HQ.</p>
-
-          <div class="content-with-image">
-              <p>Nunc a sapien. Cras interdum sollicitudin ante. Maecenas non turpis vitae elit dapibus efficitur. Mauris vitae libero quis ante venenatis imperdiet sed in purus. Aliquam vitae metus vel elit volutpat aliquet at vitae turpis.</p>
-              <img src="https://compass-ssl.xbox.com/assets/f4/7e/f47e0984-c5a8-485f-861f-17855b3c3c7a.jpg?n=Starfield_Feature-Image-L_Exploration_1083x609.jpg" alt="Starfield Exploration">
-          </div>
-
-          <p>Life support systems are cycling perfectly, with atmospheric scrubbers working overtime to ensure fresh air. Power distribution is balanced across all modules, with a slight reserve for emergency thruster bursts or weapon systems.</p>
-
-          <div class="content-with-image">
-              <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.</p>
-              <img src="https://img.redbull.com/images/c_limit,w_1500,h_1000,f_auto,q_auto/redbullcom/2023/6/12/j9s31fvx4qclnry60i1n/starfield-screenshot-3" alt="Starfield Character Customization">
+          <div class="project-item">
+              <div class="project-image">
+                  <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="Starfield Mission Board">
+              </div>
+              <div class="project-details">
+                  <h3>Diagnóstico del Motor Gravítico</h3>
+                  <span class="date-tag">Publicado: 25/09/23 | Estatus: ÓPTIMO</span>
+                  <p>Registro de eficiencia y rendimiento del motor Gravítico. Análisis de la potencia consumida en el último salto intersistémico y verificación de las tolerancias estructurales después de la última turbulencia.</p>
+              </div>
           </div>
         </div>
 
         <div class="tab-content" id="references">
-          <h2>References & Sources</h2>
+          <h2>Referencias & Fuentes</h2>
           <p>This page is a fan-made UI concept inspired by Bethesda Game Studios' Starfield. All trademarks, copyrights, and intellectual property related to Starfield belong to ZeniMax Media Inc. and Bethesda Softworks LLC.</p>
           <ul>
               <li><a href="https://bethesda.net/en/game/starfield" target="_blank">Official Starfield Website</a></li>
               <li><a href="https://starfield.fandom.com/wiki/Starfield_Wiki" target="_blank">Starfield Wiki (Fandom)</a></li>
-              <li><a href="https://www.artstation.com/eugeneshi" target="_blank">Eugene Shishkin's UI/UX Concepts (ArtStation)</a> - *Images used in Home tab.*</li>
-              <li>Other images sourced from official press kits and promotional materials.</li>
+              <li>Imágenes subidas: -1.jpg, still-0d11fd1512fde3f73e28149d21cbf81d.webp, 8f0020a7eef449709807cc28a58c1006.jpg.</li>
           </ul>
-          <p>This project is for educational and demonstrative purposes only, showcasing UI/UX design concepts within the Starfield aesthetic. No commercial use is intended or implied.</p>
+          <p>Este proyecto es solo para fines de demostración de diseño UI/UX. No se pretende ni se implica uso comercial.</p>
         </div>
 
       </main>
     </div>
 
     <footer>
-      <p>&copy; 2025 Constellation Archives. All rights reserved. UI Concept by [Your Name Here]</p>
+      <p>&copy; 2025 Constellation Archives. Todos los derechos reservados.</p>
     </footer>
 
   </div> <div id="myLightbox" class="lightbox">
@@ -437,29 +525,44 @@
       const tabContainer = document.querySelector('.tab-container');
       const tabButtons = document.querySelectorAll('.tab-button');
       const tabContents = document.querySelectorAll('.tab-content');
+      const homeLinks = document.querySelectorAll('#home .tab-link');
 
+      function switchTab(targetId) {
+          const targetButton = document.querySelector(`.tab-button[data-tab="${targetId}"]`);
+          const targetContent = document.getElementById(targetId);
+
+          if (!targetButton || !targetContent) return;
+
+          tabButtons.forEach(button => button.classList.remove('active'));
+          tabContents.forEach(content => content.classList.remove('active'));
+
+          targetButton.classList.add('active');
+          
+          // Re-trigger fadeIn animation for smooth transition
+          targetContent.classList.remove('active');
+          void targetContent.offsetWidth; 
+          targetContent.classList.add('active');
+      }
+
+      // 1. Navigation bar click (menu principal)
       if (tabContainer) {
         tabContainer.addEventListener('click', (e) => {
           const clicked = e.target.closest('.tab-button');
-          
-          if (!clicked) return;
-
-          const targetId = clicked.dataset.tab;
-          const targetContent = document.getElementById(targetId);
-
-          tabButtons.forEach(button => {
-            button.classList.remove('active');
-          });
-          tabContents.forEach(content => {
-            content.classList.remove('active');
-          });
-
-          clicked.classList.add('active');
-          if (targetContent) {
-            targetContent.classList.add('active');
+          if (clicked) {
+            const targetId = clicked.dataset.tab;
+            switchTab(targetId);
           }
         });
       }
+      
+      // 2. Home Guide Links click (menu dentro del home)
+      homeLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+              e.preventDefault();
+              const targetId = link.dataset.targetTab;
+              switchTab(targetId);
+          });
+      });
 
       // ========================================
       // LOADING SCREEN LOGIC
@@ -469,18 +572,16 @@
 
       window.addEventListener('load', () => {
         if (loadingScreen && contentWrapper) {
-          // Give a small moment for the user to see the loading screen
           setTimeout(() => {
-            loadingScreen.classList.add('hidden'); // Trigger the curtain animation
+            loadingScreen.classList.add('hidden'); 
             
             loadingScreen.addEventListener('animationend', () => {
               loadingScreen.style.display = 'none';
               
-              // Fade in the content wrapper
               contentWrapper.style.visibility = 'visible';
               contentWrapper.style.opacity = '1';
 
-              // Re-trigger active tab's animation
+              // Ensure initial tab animation runs
               requestAnimationFrame(() => {
                 const activeTab = document.querySelector('.tab-content.active');
                 if (activeTab) {
@@ -492,7 +593,6 @@
             }, { once: true });
           }, 500); 
         } else if (contentWrapper) {
-            // Failsafe
             contentWrapper.style.visibility = 'visible';
             contentWrapper.style.opacity = '1';
         }
@@ -501,13 +601,15 @@
       // ========================================
       // LIGHTBOX IMAGE EXPANSION LOGIC
       // ========================================
+      // Note: Lightbox functionality needs updating to work with the new .project-image structure,
+      // but keeping it simple for now based on current logic.
       const lightbox = document.getElementById('myLightbox');
       const lightboxImg = document.getElementById('lightboxImg');
       const closeLightbox = document.querySelector('.close-lightbox');
-      const contentImages = document.querySelectorAll('.content-with-image img');
+      const projectImages = document.querySelectorAll('.project-image img'); // Target project images
 
       if (lightbox && lightboxImg && closeLightbox) {
-        contentImages.forEach(img => {
+        projectImages.forEach(img => {
           img.addEventListener('click', () => {
             lightbox.style.display = 'flex';
             lightboxImg.src = img.src;
