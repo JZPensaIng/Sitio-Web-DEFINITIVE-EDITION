@@ -7,7 +7,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
   
   <style>
-    /* ... (CSS sin cambios) ... */
+    /* ========================================
+    GLOBALS & AESTHETICS (STARFIELD PALETTE)
+    ========================================
+    */
     :root {
       --color-bg: #0C161C; /* Deep Space Navy */
       --color-text: #F5F0E6; /* Off-white / Cream */
@@ -179,7 +182,6 @@
         margin-bottom: 30px;
         padding-bottom: 10px;
         border-bottom: 1px solid var(--color-border);
-        /* Initially hidden by JS when home is active */
     }
     
     .contextual-nav button {
@@ -320,8 +322,16 @@
       margin-top: 0;
       margin-bottom: 25px;
     }
-    /* Rest of content styles omitted for brevity */
 
+    /* Styles for Figure Captions */
+    .figure-caption {
+        font-size: 0.9rem;
+        color: #aaa;
+        margin-top: 5px;
+        text-align: center;
+        font-style: italic;
+    }
+    
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -332,7 +342,17 @@
         flex-direction: column;
         margin-bottom: 40px;
     }
-    /* Rest of content-with-image styles omitted for brevity */
+
+    .content-with-image img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-top: 20px;
+        border: 1px solid var(--color-border);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+    }
 
     /* Lightbox styles omitted for brevity */
     .lightbox {
@@ -454,11 +474,11 @@
               
               <li class="project-item" data-target-tab="mission">
                   <div class="project-item-img">
-                      <img src="8f0020a7eef449709807cc28a58c1006.jpg" alt="Modelo 3D">
+                      <img src="8f0020a7eef449709807cc28a58c1006.jpg" alt="Modelo 3D Portafolio">
                   </div>
                   <div class="project-info">
                       <h3>Modelo 3D</h3>
-                      <p>El modelo 3D de prueba, el objetivo es lograr que tenga partes que se muevan, sin romperse.</p>
+                      <p>El modelo 3D de prueba, el objetivo es lograr que tenga partes que se muevan sin romperse.</p>
                       <div class="project-date">Publicado: 27/10/2025</div>
                   </div>
               </li>
@@ -493,12 +513,31 @@
         </div>
 
         <div class="tab-content" id="mission">
-          <h2>Mission Debrief</h2>
-          <p>Our primary objective is to secure the remaining Artifacts. Their purpose is unknown, but their power is undeniable. Intelligence suggests recent activity in the Cheyenne system. Your task is to investigate, report, and secure any findings.</p>
+          <h2>Modelo 3D - Prototipo de Portafolio</h2>
           
+          <p>El objetivo es crear un modelo en 3D que podamos imprimir, no solo para conseguir algo funcional, sino para aprender el proceso de impresión de piezas.</p>
+          
+          <p>El día 17 de septiembre, se empezó con un modelo de prueba de un astronauta, que serviría como muñeco con partes móviles, pero se **descartó** al ser muy pequeño. En su lugar, creé un portafolio con el objetivo de guardar cosas adentro, fácil de imprimir y de armar.</p>
+
           <div class="content-with-image">
-              <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus.</p>
-              <img src="https://cdn.wccftech.com/wp-content/uploads/2023/06/Starfield-Gameplay-Screenshot-002-12-scaled.jpg" alt="Astronaut in Starfield">
+              <img src="8f0020a7eef449709807cc28a58c1006.jpg" alt="Modelo de TinkerCad del portafolio.">
+              <div class="figure-caption">Figura 1. Presentando el modelo de TinkerCad de lo que será el modelo del portafolio.</div>
+          </div>
+
+          <p>Después de imprimir en 3D, junté los modelos y coloqué un clip para que sirviera como parte movible, permitiendo al modelo abrirse y cerrarse. El portafolio sufrió daños en los costados porque los contornos eran débiles y poco gruesos.</p>
+
+          <div class="content-with-image">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/3D_printed_parts.jpg/1024px-3D_printed_parts.jpg" alt="Proceso inicial de armado del portafolio.">
+              <div class="figure-caption">Figura 2. Muestra el proceso inicial de armado del portafolio.</div>
+          </div>
+
+          <p>Al final, se hicieron varias pruebas para averiguar si el modelo era funcional. El modelo no cierra completamente; un pequeño error en la impresión colocó una capa más de lo que se debía en el engranaje principal.</p>
+          
+          <p>Para terminar, el modelo sirve muy bien para guardar artículos pequeños, como monedas, tornillos, clips, piezas pequeñas, etc.</p>
+
+          <div class="content-with-image">
+              <img src="https://static.dezeen.com/uploads/2019/04/3d-printed-houses-icon-3.jpg" alt="Modelo armado, con artículos de prueba.">
+              <div class="figure-caption">Figura 3. El modelo armado, con algunos artículos de prueba.</div>
           </div>
         </div>
 
@@ -561,6 +600,7 @@
         const contentImages = document.querySelectorAll('.content-with-image img');
         
         // Define the order of the main tabs (excluding home, which is special)
+        // Note: The 'mission' tab now serves as the 'Modelo 3D' project.
         const tabOrder = ['mission', 'codex', 'system', 'references'];
 
 
@@ -600,13 +640,21 @@
                 const currentTabIndex = tabOrder.indexOf(targetId);
                 const nextTabIndex = currentTabIndex + 1;
                 const nextTabId = tabOrder[nextTabIndex];
+                
+                // Get display name from button text (e.g., 'Mission' -> 'MODELO 3D')
+                const activeTabButton = document.querySelector(`.tab-button[data-tab="${targetId}"]`);
+                const displayName = activeTabButton ? activeTabButton.textContent.toUpperCase() : targetId.toUpperCase();
 
                 // Update title
-                currentTabTitle.textContent = targetId.toUpperCase();
+                currentTabTitle.textContent = displayName;
 
                 // Update next button
                 if (nextTabId) {
-                    btnNextTab.textContent = `Siguiente: ${nextTabId.toUpperCase()} →`;
+                    // Get the text of the next tab button for the label
+                    const nextTabButton = document.querySelector(`.tab-button[data-tab="${nextTabId}"]`);
+                    const nextTabName = nextTabButton ? nextTabButton.textContent.toUpperCase() : nextTabId.toUpperCase();
+                    
+                    btnNextTab.textContent = `Siguiente: ${nextTabName} →`;
                     btnNextTab.dataset.targetTab = nextTabId;
                     btnNextTab.disabled = false;
                 } else {
