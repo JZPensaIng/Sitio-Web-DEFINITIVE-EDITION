@@ -3,21 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Starfield UI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <title>Starfield UI Concept</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  
   <style>
-    /* Estilos globales */
+    /* ========================================
+    GLOBALS & AESTHETICS (STARFIELD PALETTE)
+    ========================================
+    */
+    :root {
+      --color-bg: #0C161C; /* Deep Space Navy */
+      --color-text: #F5F0E6; /* Off-white / Cream */
+      --color-accent: #E8D890; /* Constellation Yellow */
+      --color-accent-hover: #FFF;
+      --color-border: #3a4f5c; /* Faded UI Line */
+      --font-primary: 'Orbitron', sans-serif;
+      --font-secondary: 'Roboto', sans-serif;
+    }
+
     body, html {
       margin: 0;
       padding: 0;
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-secondary);
       overflow-x: hidden;
-      background-color: #000;
-      color: #fff;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-weight: 300;
+      letter-spacing: 0.5px;
     }
 
-    /* Fondo animado */
-    .background {
+    /* Animated Background */
+    body::before {
+      content: '';
       position: fixed;
       top: 0;
       left: 0;
@@ -25,8 +42,20 @@
       height: 100%;
       background: url('https://bethesda.net/en/game/starfield/media/wallpaper/starfield-a-journey-through-space-wallpaper') no-repeat center center fixed;
       background-size: cover;
+      z-index: -2;
+      animation: zoom 60s infinite linear alternate;
+    }
+
+    /* Dark overlay for readability */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(12, 22, 28, 0.85); /* 85% opacity of --color-bg */
       z-index: -1;
-      animation: zoom 60s infinite linear;
     }
 
     @keyframes zoom {
@@ -34,146 +63,218 @@
       100% { transform: scale(1.1); }
     }
 
-    /* Contenedor principal */
+    /* ========================================
+    LAYOUT & STRUCTURE
+    ========================================
+    */
     .container {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 20px;
     }
 
-    /* Encabezado */
     header {
       text-align: center;
-      margin-bottom: 40px;
+      margin: 30px 0 40px 0;
     }
 
     header h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 4rem;
-      letter-spacing: 2px;
+      font-family: var(--font-primary);
+      font-size: 3rem;
+      letter-spacing: 8px;
       text-transform: uppercase;
-      color: #fff;
+      color: var(--color-text);
+      font-weight: 700;
+      margin: 0;
     }
 
-    /* Navegación */
-    nav {
+    /* ========================================
+    TAB SYSTEM
+    ========================================
+    */
+
+    /* Tab navigation bar */
+    .tab-container {
       display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-bottom: 50px;
+      justify-content: flex-start; /* Aligned left for "NASA-UI" feel */
+      gap: 10px;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 30px;
     }
 
-    nav a {
-      font-size: 1.2rem;
+    .tab-button {
+      font-family: var(--font-primary);
+      font-size: 1rem;
+      font-weight: 500;
       text-transform: uppercase;
-      color: #fff;
-      text-decoration: none;
+      letter-spacing: 2px;
+      color: var(--color-text);
+      background: none;
+      border: none;
+      padding: 15px 25px;
+      cursor: pointer;
       position: relative;
-      padding: 5px 0;
+      transition: color 0.2s ease-out;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -1px; /* Aligns with container border */
     }
 
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background-color: #00f;
-      transform: scaleX(0);
-      transform-origin: bottom right;
-      transition: transform 0.25s ease-out;
+    .tab-button:hover {
+      color: var(--color-accent-hover);
     }
 
-    nav a:hover::after {
-      transform: scaleX(1);
-      transform-origin: bottom left;
+    /* Active tab state */
+    .tab-button.active {
+      color: var(--color-accent);
+      border-bottom-color: var(--color-accent);
     }
 
-    /* Secciones */
-    section {
-      margin-bottom: 60px;
+    /* Content panes */
+    .tab-content {
+      display: none; /* Hidden by default */
+      animation: fadeIn 0.5s ease-out;
     }
 
-    section h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      color: #fff;
+    .tab-content.active {
+      display: block; /* Shown when active */
     }
 
-    section p {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: #ccc;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Botón de llamada a la acción */
-    .cta-button {
-      display: inline-block;
-      padding: 15px 30px;
-      font-size: 1.2rem;
+    /* ========================================
+    CONTENT STYLING
+    ========================================
+    */
+    .tab-content h2 {
+      font-family: var(--font-primary);
+      font-size: 2.2rem;
+      font-weight: 700;
       text-transform: uppercase;
-      background-color: #00f;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
+      letter-spacing: 3px;
+      color: var(--color-accent);
+      margin-top: 0;
     }
 
-    .cta-button:hover {
-      background-color: #f00;
+    .tab-content p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--color-text);
+      font-weight: 300;
+      max-width: 80ch; /* Good line length for reading */
     }
 
-    /* Footer */
+    .tab-content p:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* ========================================
+    FOOTER
+    ========================================
+    */
     footer {
       text-align: center;
-      padding: 20px;
-      background-color: #111;
+      padding: 40px 20px;
+      margin-top: 60px;
+      border-top: 1px solid var(--color-border);
       color: #888;
+      font-family: var(--font-secondary);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
-    footer p {
-      font-size: 1rem;
-    }
   </style>
 </head>
 <body>
 
-  <div class="background"></div>
-
   <div class="container">
     <header>
-      <h1>Explora el Universo</h1>
+      <h1>STARFIELD</h1>
     </header>
 
-    <nav>
-      <a href="#about">Acerca de</a>
-      <a href="#features">Características</a>
-      <a href="#contact">Contacto</a>
+    <nav class="tab-container">
+      <button class="tab-button active" data-tab="home">Home</button>
+      <button class="tab-button" data-tab="mission">Mission</button>
+      <button class="tab-button" data-tab="codex">Codex</button>
+      <button class="tab-button" data-tab="system">System</button>
     </nav>
 
-    <section id="about">
-      <h2>Acerca de Starfield</h2>
-      <p>Starfield es la primera nueva propiedad intelectual en más de 25 años de Bethesda Game Studios, los creadores galardonados de The Elder Scrolls V: Skyrim y Fallout 4.</p>
-    </section>
+    <main class="content-container">
 
-    <section id="features">
-      <h2>Características Principales</h2>
-      <p>Explora más de 1,000 planetas, personaliza tu nave espacial y sumérgete en una narrativa profunda en un universo expansivo.</p>
-    </section>
+      <div class="tab-content active" id="home">
+        <h2>Welcome to Constellation</h2>
+        <p>You've found your way to Constellation. We're an organization of explorers, scientists, and adventurers united by a common purpose: to uncover the mysteries of the galaxy. What you've found is the key to everything.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.</p>
+      </div>
 
-    <section id="contact">
-      <h2>Contacto</h2>
-      <p>Para más información, visita nuestro sitio oficial o contáctanos a través de nuestras redes sociales.</p>
-    </section>
+      <div class="tab-content" id="mission">
+        <h2>Mission Debrief</h2>
+        <p>Our primary objective is to secure the remaining Artifacts. Their purpose is unknown, but their power is undeniable. Intelligence suggests recent activity in the Cheyenne system. Your task is to investigate, report, and secure any findings.</p>
+        <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus.</p>
+      </div>
 
-    <a href="#contact" class="cta-button">Únete a la Aventura</a>
+      <div class="tab-content" id="codex">
+        <h2>Codex: United Colonies</h2>
+        <p>The United Colonies (UC) is the most powerful, established military and political faction in the Settled Systems. Based in New Atlantis on the planet Jemison, the UC embodies the spirit of a centralized, law-abiding republic.</p>
+        <p>They maintain a large, disciplined fleet and control vast territories. While seen as a beacon of stability by some, others view their expansion and bureaucracy with suspicion. Relations with the Freestar Collective remain tense after the Colony War.</p>
+      </div>
+
+      <div class="tab-content" id="system">
+        <h2>System Status</h2>
+        <p>All systems nominal. Ship integrity at 100%. Grav-drive spooling is optimal. Reviewing navigational charts for the Alpha Centauri system.</p>
+        <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
+      </div>
+
+    </main>
   </div>
 
   <footer>
-    <p>&copy; 2025 Bethesda Game Studios. Todos los derechos reservados.</p>
+    <p>&copy; 2025 Constellation Archives. All rights reserved.</p>
   </footer>
+
+  <script>
+    // 
+    // ========================================
+    // TAB INTERACTIVITY LOGIC
+    // - You do not need to edit this.
+    // - It works automatically based on the 'data-tab'
+    //   and 'id' attributes in the HTML.
+    // ========================================
+    // 
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabContainer = document.querySelector('.tab-container');
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabContainer.addEventListener('click', (e) => {
+        const clicked = e.target.closest('.tab-button');
+        
+        // If the click wasn't on a button, do nothing
+        if (!clicked) return;
+
+        // Get the target tab ID from the button's data attribute
+        const targetId = clicked.dataset.tab;
+        const targetContent = document.getElementById(targetId);
+
+        // 1. Deactivate all buttons and content
+        tabButtons.forEach(button => {
+          button.classList.remove('active');
+        });
+        tabContents.forEach(content => {
+          content.classList.remove('active');
+        });
+
+        // 2. Activate the clicked button and its corresponding content
+        clicked.classList.add('active');
+        if (targetContent) {
+          targetContent.classList.add('active');
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
