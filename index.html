@@ -25,16 +25,16 @@
       margin: 0;
       padding: 0;
       font-family: var(--font-secondary);
-      overflow-x: hidden; /* Prevent horizontal scroll */
+      overflow-x: hidden;
       background-color: var(--color-bg);
       color: var(--color-text);
       font-weight: 300;
       letter-spacing: 0.5px;
-      height: 100%; /* Ensure html and body take full height for loading screen */
+      height: 100%;
     }
 
     /* Animated Background & Overlay */
-    body::before {
+    body::before { /* Background Image */
       content: '';
       position: fixed;
       top: 0;
@@ -43,7 +43,7 @@
       height: 100%;
       background: url('https://bethesda.net/en/game/starfield/media/wallpaper/starfield-a-journey-through-space-wallpaper') no-repeat center center fixed;
       background-size: cover;
-      z-index: -2;
+      z-index: -3; /* DEBUG FIX: Pushed to the very back */
       animation: zoom 60s infinite linear alternate;
     }
 
@@ -54,8 +54,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(12, 22, 28, 0.88); /* Increased opacity to 88% for better contrast */
-      z-index: -1;
+      background: rgba(12, 22, 28, 0.88);
+      z-index: -2; /* DEBUG FIX: Above background */
     }
 
     @keyframes zoom {
@@ -70,46 +70,45 @@
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1; /* Above background, below main content */
-      pointer-events: none; /* Allows clicks to pass through */
+      z-index: -1; /* DEBUG FIX: Above overlay, below content */
+      pointer-events: none;
       background: 
         radial-gradient(2px 2px at 20px 30px, var(--color-text), rgba(255,255,255,0)),
         radial-gradient(2px 2px at 80px 70px, var(--color-text), rgba(255,255,255,0)),
         radial-gradient(1px 1px at 120px 10px, var(--color-text), rgba(255,255,255,0)),
         radial-gradient(1px 1px at 50px 150px, var(--color-text), rgba(255,255,255,0));
-      background-size: 200px 200px; /* Adjust density */
-      opacity: 0.2; /* Semi-transparent */
+      background-size: 200px 200px;
+      opacity: 0.2;
       animation: starMove 100s linear infinite;
     }
 
     @keyframes starMove {
       from { background-position: 0 0; }
-      to { background-position: 10000px 10000px; } /* Large values for diagonal movement */
+      to { background-position: 10000px 10000px; }
     }
 
     /* ========================================
     LAYOUT & STRUCTURE
     ========================================
     */
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px;
-      position: relative; /* For z-index context */
-      z-index: 1; /* Ensure content is above background/stars */
-    }
-
-    header {
+    
+    /* DEBUG FIX: Wrapper to hide content during load */
+    .content-wrapper {
       position: relative;
-      margin: 30px 0 40px 0;
-      z-index: 2; /* Above other content if needed */
+      z-index: 1;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
     }
-
-    .header-bg { /* White background for the title */
+    
+    header {
+      /* DEBUG FIX: Styles moved from .header-bg to header tag */
       background-color: var(--color-text);
       padding: 15px 0;
+      margin-bottom: 30px;
       text-align: center;
-      margin-bottom: 30px; /* Space between header and nav */
+      position: relative;
+      z-index: 2;
     }
 
     header h1 {
@@ -120,8 +119,14 @@
       color: var(--color-bg); /* Dark text on white background */
       font-weight: 700;
       margin: 0;
-      display: inline-block; /* To contain text within its own space */
+      display: inline-block;
       padding: 0 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
     }
 
     /* ========================================
@@ -165,7 +170,7 @@
     .tab-content {
       display: none;
       animation: fadeIn 0.5s ease-out;
-      padding-bottom: 50px; /* Give some space before footer */
+      padding-bottom: 50px;
     }
 
     .tab-content.active {
@@ -203,38 +208,38 @@
     
     .content-with-image {
         display: flex;
-        flex-direction: column; /* Stack paragraph and image */
+        flex-direction: column;
         margin-bottom: 40px;
     }
 
     .content-with-image img {
-        max-width: 100%; /* Images fill container width */
+        max-width: 100%;
         height: auto;
         display: block;
-        margin-top: 20px; /* Space between paragraph and image */
-        border: 1px solid var(--color-border); /* Subtle border */
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); /* Depth effect */
-        cursor: pointer; /* Indicate clickable */
+        margin-top: 20px;
+        border: 1px solid var(--color-border);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+        cursor: pointer;
         transition: transform 0.2s ease-in-out;
     }
 
     .content-with-image img:hover {
-        transform: scale(1.01); /* Slight zoom on hover */
+        transform: scale(1.01);
     }
 
     /* Lightbox for image expansion */
     .lightbox {
-      display: none; /* Hidden by default */
+      display: none;
       position: fixed;
-      z-index: 9999; /* On top of everything */
+      z-index: 9999;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
       overflow: auto;
-      background-color: rgba(0, 0, 0, 0.9); /* Dark overlay */
-      align-items: center; /* Center image vertically */
-      justify-content: center; /* Center image horizontally */
+      background-color: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
     }
 
     .lightbox-content {
@@ -242,7 +247,7 @@
       display: block;
       max-width: 90%;
       max-height: 90%;
-      object-fit: contain; /* Ensure image fits */
+      object-fit: contain;
     }
 
     .close-lightbox {
@@ -296,8 +301,6 @@
       font-size: 0.9rem;
       letter-spacing: 1px;
       text-transform: uppercase;
-      position: relative; /* For z-index */
-      z-index: 1;
     }
 
     /* ========================================
@@ -311,18 +314,18 @@
       width: 100%;
       height: 100%;
       background-color: var(--color-text); /* White background */
-      z-index: 10000; /* Highest z-index */
+      z-index: 10000;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden; /* Hide star overflow */
+      overflow: hidden;
     }
 
     .loading-screen.hidden {
-      animation: curtainClose 1.5s forwards; /* Animation to hide */
+      animation: curtainClose 1.5s forwards;
     }
 
-    /* Star animation for loading screen - more dense and faster */
+    /* Star animation for loading screen */
     .loading-screen::before {
       content: '';
       position: absolute;
@@ -341,7 +344,7 @@
         radial-gradient(3px 3px at 75% 45%, #fff, rgba(255,255,255,0)),
         radial-gradient(2px 2px at 85% 20%, #fff, rgba(255,255,255,0)),
         radial-gradient(3px 3px at 95% 35%, #fff, rgba(255,255,255,0));
-      background-size: 100px 100px; /* Adjust density */
+      background-size: 100px 100px;
       opacity: 0.7;
       animation: loadingStarMove 5s linear infinite;
     }
@@ -359,150 +362,147 @@
         100% { transform: translateY(-100%); opacity: 0; visibility: hidden; }
     }
 
-    /* Hide body content until loaded */
-    body.loading {
-      overflow: hidden; /* Prevent scrolling during load */
-    }
   </style>
 </head>
-<body class="loading">
+<body>
 
-  <div class="loading-screen">
-    </div>
+  <div class="loading-screen"></div>
 
-  <div class="star-effect"></div> <div class="container">
+  <div class="star-effect"></div>
+
+  <div class="content-wrapper">
+    
     <header>
-      <div class="header-bg">
-        <h1>STARFIELD</h1>
-      </div>
+      <h1>STARFIELD</h1>
     </header>
 
-    <nav class="tab-container">
-      <button class="tab-button active" data-tab="home">Home</button>
-      <button class="tab-button" data-tab="mission">Mission</button>
-      <button class="tab-button" data-tab="codex">Codex</button>
-      <button class="tab-button" data-tab="system">System</button>
-      <button class="tab-button" data-tab="references">References</button>
-    </nav>
+    <div class="container">
+      <nav class="tab-container">
+        <button class="tab-button active" data-tab="home">Home</button>
+        <button class="tab-button" data-tab="mission">Mission</button>
+        <button class="tab-button" data-tab="codex">Codex</button>
+        <button class="tab-button" data-tab="system">System</button>
+        <button class="tab-button" data-tab="references">References</button>
+      </nav>
 
-    <main class="content-container">
+      <main class="content-container">
 
-      <div class="tab-content active" id="home">
-        <h2>Welcome to Constellation</h2>
-        <p>You've found your way to Constellation. We're an organization of explorers, scientists, and adventurers united by a common purpose: to uncover the mysteries of the galaxy. What you've found is the key to everything.</p>
-        
-        <div class="content-with-image">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam arcu sed eros.</p>
-            <img src="https://cdna.artstation.com/p/assets/images/images/051/087/905/large/eugene-shishkin-screenshot-00000.jpg?1656511116" alt="Starfield Spaceship UI Concept">
+        <div class="tab-content active" id="home">
+          <h2>Welcome to Constellation</h2>
+          <p>You've found your way to Constellation. We're an organization of explorers, scientists, and adventurers united by a common purpose: to uncover the mysteries of the galaxy. What you've found is the key to everything.</p>
+          
+          <div class="content-with-image">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam arcu sed eros.</p>
+              <img src="https://cdna.artstation.com/p/assets/images/images/051/087/905/large/eugene-shishkin-screenshot-00000.jpg?1656511116" alt="Starfield Spaceship UI Concept">
+          </div>
+
+          <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>
+
+          <div class="content-with-image">
+              <p>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi. Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat.</p>
+              <img src="https://cdnb.artstation.com/p/assets/images/images/051/087/928/large/eugene-shishkin-screenshot-00005.jpg?1656511145" alt="Starfield Planet Scan UI">
+          </div>
+
+          <p>Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus.</p>
+
+          <div class="content-with-image">
+              <p>Nunc a sapien. Cras interdum sollicitudin ante. Maecenas non turpis vitae elit dapibus efficitur. Mauris vitae libero quis ante venenatis imperdiet sed in purus. Aliquam vitae metus vel elit volutpat aliquet at vitae turpis.</p>
+              <img src="https://cdna.artstation.com/p/assets/images/images/051/087/915/large/eugene-shishkin-screenshot-00001.jpg?1656511128" alt="Starfield Inventory UI">
+          </div>
         </div>
 
-        <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>
+        <div class="tab-content" id="mission">
+          <h2>Mission Debrief</h2>
+          <p>Our primary objective is to secure the remaining Artifacts. Their purpose is unknown, but their power is undeniable. Intelligence suggests recent activity in the Cheyenne system. Your task is to investigate, report, and secure any findings.</p>
+          
+          <div class="content-with-image">
+              <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus.</p>
+              <img src="https://cdn.wccftech.com/wp-content/uploads/2023/06/Starfield-Gameplay-Screenshot-002-12-scaled.jpg" alt="Astronaut in Starfield">
+          </div>
 
-        <div class="content-with-image">
-            <p>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi. Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat.</p>
-            <img src="https://cdnb.artstation.com/p/assets/images/images/051/087/928/large/eugene-shishkin-screenshot-00005.jpg?1656511145" alt="Starfield Planet Scan UI">
+          <p>Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi. Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat.</p>
+
+          <div class="content-with-image">
+              <p>Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus.</p>
+              <img src="https://assets-prd.ignimgs.com/2022/06/12/starfield-screenshot-001-1655060413000.jpg" alt="Starfield Alien Landscape">
+          </div>
+
+          <p>Nunc a sapien. Cras interdum sollicitudin ante. Maecenas non turpis vitae elit dapibus efficitur. Mauris vitae libero quis ante venenatis imperdiet sed in purus. Aliquam vitae metus vel elit volutpat aliquet at vitae turpis.</p>
+
+          <div class="content-with-image">
+              <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.</p>
+              <img src="https://www.pcgamesn.com/wp-content/uploads/2023/08/Starfield_E3_SettleSysMap.jpg" alt="Starfield Star Map">
+          </div>
         </div>
 
-        <p>Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus.</p>
+        <div class="tab-content" id="codex">
+          <h2>Codex: United Colonies</h2>
+          <p>The United Colonies (UC) is the most powerful, established military and political faction in the Settled Systems. Based in New Atlantis on the planet Jemison, the UC embodies the spirit of a centralized, law-abiding republic.</p>
+          
+          <div class="content-with-image">
+              <p>They maintain a large, disciplined fleet and control vast territories. While seen as a beacon of stability by some, others view their expansion and bureaucracy with suspicion. Relations with the Freestar Collective remain tense after the Colony War, but a fragile peace currently holds.</p>
+              <img src="https://images.gnwcdn.com/2023/articles/2023-08-31-09-54/starfield-release-date-times-preload-new-zealand-pc-xbox-game-pass-1693462479633.jpg/PRM/2000/H2000/CR0,0,2000,1051/FIXED/1693462479633.jpg" alt="New Atlantis Cityscape">
+          </div>
 
-        <div class="content-with-image">
-            <p>Nunc a sapien. Cras interdum sollicitudin ante. Maecenas non turpis vitae elit dapibus efficitur. Mauris vitae libero quis ante venenatis imperdiet sed in purus. Aliquam vitae metus vel elit volutpat aliquet at vitae turpis.</p>
-            <img src="https://cdna.artstation.com/p/assets/images/images/051/087/915/large/eugene-shishkin-screenshot-00001.jpg?1656511128" alt="Starfield Inventory UI">
-        </div>
-      </div>
+          <p>The UC Citizens are proud and loyal, benefiting from advanced technology and social stability. However, the rigid structure can feel oppressive to those who value personal freedom above all else, often leading them to the FreAR Collective.</p>
 
-      <div class="tab-content" id="mission">
-        <h2>Mission Debrief</h2>
-        <p>Our primary objective is to secure the remaining Artifacts. Their purpose is unknown, but their power is undeniable. Intelligence suggests recent activity in the Cheyenne system. Your task is to investigate, report, and secure any findings.</p>
-        
-        <div class="content-with-image">
-            <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus.</p>
-            <img src="https://cdn.wccftech.com/wp-content/uploads/2023/06/Starfield-Gameplay-Screenshot-002-12-scaled.jpg" alt="Astronaut in Starfield">
-        </div>
+          <div class="content-with-image">
+              <p>Their military prowess is unmatched, with highly trained soldiers and state-of-the-art spacecraft. Recruitment into the UC Navy or Vanguard is a prestigious path, offering a secure career and a chance to defend the core worlds from external threats.</p>
+              <img src="https://sm.ign.com/ign_br/blogroll/s/starfield-/starfield-preview-what-we-saw-in-bethesdas-deep-dive-into-its_ezt9.jpg" alt="UC Vanguard Ship">
+          </div>
 
-        <p>Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi. Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat.</p>
+          <p>Research and development are heavily funded by the UC, leading to breakthroughs in grav-drive technology, robotics, and terraforming. These advancements solidify their position as the technological leader in the Settled Systems.</p>
 
-        <div class="content-with-image">
-            <p>Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus.</p>
-            <img src="https://assets-prd.ignimgs.com/2022/06/12/starfield-screenshot-001-1655060413000.jpg" alt="Starfield Alien Landscape">
-        </div>
-
-        <p>Nunc a sapien. Cras interdum sollicitudin ante. Maecenas non turpis vitae elit dapibus efficitur. Mauris vitae libero quis ante venenatis imperdiet sed in purus. Aliquam vitae metus vel elit volutpat aliquet at vitae turpis.</p>
-
-        <div class="content-with-image">
-            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.</p>
-            <img src="https://www.pcgamesn.com/wp-content/uploads/2023/08/Starfield_E3_SettleSysMap.jpg" alt="Starfield Star Map">
-        </div>
-      </div>
-
-      <div class="tab-content" id="codex">
-        <h2>Codex: United Colonies</h2>
-        <p>The United Colonies (UC) is the most powerful, established military and political faction in the Settled Systems. Based in New Atlantis on the planet Jemison, the UC embodies the spirit of a centralized, law-abiding republic.</p>
-        
-        <div class="content-with-image">
-            <p>They maintain a large, disciplined fleet and control vast territories. While seen as a beacon of stability by some, others view their expansion and bureaucracy with suspicion. Relations with the Freestar Collective remain tense after the Colony War, but a fragile peace currently holds.</p>
-            <img src="https://images.gnwcdn.com/2023/articles/2023-08-31-09-54/starfield-release-date-times-preload-new-zealand-pc-xbox-game-pass-1693462479633.jpg/PRM/2000/H2000/CR0,0,2000,1051/FIXED/1693462479633.jpg" alt="New Atlantis Cityscape">
+          <div class="content-with-image">
+              <p>New Atlantis, the capital, is a sprawling metropolis of towering skyscrapers, verdant parks, and bustling marketplaces. It serves as a hub for trade, diplomacy, and interspecies cooperation, a true testament to human ambition among the stars.</p>
+              <img src="https://www.videogameschronicle.com/files/2023/08/Starfield_Screenshot_NewAtlantis-scaled.jpg" alt="New Atlantis Street">
+          </div>
         </div>
 
-        <p>The UC Citizens are proud and loyal, benefiting from advanced technology and social stability. However, the rigid structure can feel oppressive to those who value personal freedom above all else, often leading them to the Freestar Collective.</p>
+        <div class="tab-content" id="system">
+          <h2>System Status</h2>
+          <p>All systems nominal. Ship integrity at 100%. Grav-drive spooling is optimal. Reviewing navigational charts for the Alpha Centauri system. Environmental controls are stable, maintaining optimal life support for all crew.</p>
+          
+          <div class="content-with-image">
+              <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
+              <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="Starfield Mission Board">
+          </div>
 
-        <div class="content-with-image">
-            <p>Their military prowess is unmatched, with highly trained soldiers and state-of-the-art spacecraft. Recruitment into the UC Navy or Vanguard is a prestigious path, offering a secure career and a chance to defend the core worlds from external threats.</p>
-            <img src="https://sm.ign.com/ign_br/blogroll/s/starfield-/starfield-preview-what-we-saw-in-bethesdas-deep-dive-into-its_ezt9.jpg" alt="UC Vanguard Ship">
+          <p>Gravimetric readings indicate stable jump vectors to nearby systems. Fuel reserves are at 95%, sufficient for multiple grav-jumps and extensive planetary exploration. Communications array is fully operational, maintaining contact with Constellation HQ.</p>
+
+          <div class="content-with-image">
+              <p>Nunc a sapien. Cras interdum sollicitudin ante. Maecenas non turpis vitae elit dapibus efficitur. Mauris vitae libero quis ante venenatis imperdiet sed in purus. Aliquam vitae metus vel elit volutpat aliquet at vitae turpis.</p>
+              <img src="https://compass-ssl.xbox.com/assets/f4/7e/f47e0984-c5a8-485f-861f-17855b3c3c7a.jpg?n=Starfield_Feature-Image-L_Exploration_1083x609.jpg" alt="Starfield Exploration">
+          </div>
+
+          <p>Life support systems are cycling perfectly, with atmospheric scrubbers working overtime to ensure fresh air. Power distribution is balanced across all modules, with a slight reserve for emergency thruster bursts or weapon systems.</p>
+
+          <div class="content-with-image">
+              <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.</p>
+              <img src="https://img.redbull.com/images/c_limit,w_1500,h_1000,f_auto,q_auto/redbullcom/2023/6/12/j9s31fvx4qclnry60i1n/starfield-screenshot-3" alt="Starfield Character Customization">
+          </div>
         </div>
 
-        <p>Research and development are heavily funded by the UC, leading to breakthroughs in grav-drive technology, robotics, and terraforming. These advancements solidify their position as the technological leader in the Settled Systems.</p>
-
-        <div class="content-with-image">
-            <p>New Atlantis, the capital, is a sprawling metropolis of towering skyscrapers, verdant parks, and bustling marketplaces. It serves as a hub for trade, diplomacy, and interspecies cooperation, a true testament to human ambition among the stars.</p>
-            <img src="https://www.videogameschronicle.com/files/2023/08/Starfield_Screenshot_NewAtlantis-scaled.jpg" alt="New Atlantis Street">
-        </div>
-      </div>
-
-      <div class="tab-content" id="system">
-        <h2>System Status</h2>
-        <p>All systems nominal. Ship integrity at 100%. Grav-drive spooling is optimal. Reviewing navigational charts for the Alpha Centauri system. Environmental controls are stable, maintaining optimal life support for all crew.</p>
-        
-        <div class="content-with-image">
-            <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
-            <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="Starfield Mission Board">
+        <div class="tab-content" id="references">
+          <h2>References & Sources</h2>
+          <p>This page is a fan-made UI concept inspired by Bethesda Game Studios' Starfield. All trademarks, copyrights, and intellectual property related to Starfield belong to ZeniMax Media Inc. and Bethesda Softworks LLC.</p>
+          <ul>
+              <li><a href="https://bethesda.net/en/game/starfield" target="_blank">Official Starfield Website</a></li>
+              <li><a href="https://starfield.fandom.com/wiki/Starfield_Wiki" target="_blank">Starfield Wiki (Fandom)</a></li>
+              <li><a href="https://www.artstation.com/eugeneshi" target="_blank">Eugene Shishkin's UI/UX Concepts (ArtStation)</a> - *Images used in Home tab.*</li>
+              <li>Other images sourced from official press kits and promotional materials.</li>
+          </ul>
+          <p>This project is for educational and demonstrative purposes only, showcasing UI/UX design concepts within the Starfield aesthetic. No commercial use is intended or implied.</p>
         </div>
 
-        <p>Gravimetric readings indicate stable jump vectors to nearby systems. Fuel reserves are at 95%, sufficient for multiple grav-jumps and extensive planetary exploration. Communications array is fully operational, maintaining contact with Constellation HQ.</p>
+      </main>
+    </div>
 
-        <div class="content-with-image">
-            <p>Nunc a sapien. Cras interdum sollicitudin ante. Maecenas non turpis vitae elit dapibus efficitur. Mauris vitae libero quis ante venenatis imperdiet sed in purus. Aliquam vitae metus vel elit volutpat aliquet at vitae turpis.</p>
-            <img src="https://compass-ssl.xbox.com/assets/f4/7e/f47e0984-c5a8-485f-861f-17855b3c3c7a.jpg?n=Starfield_Feature-Image-L_Exploration_1083x609.jpg" alt="Starfield Exploration">
-        </div>
+    <footer>
+      <p>&copy; 2025 Constellation Archives. All rights reserved. UI Concept by [Your Name Here]</p>
+    </footer>
 
-        <p>Life support systems are cycling perfectly, with atmospheric scrubbers working overtime to ensure fresh air. Power distribution is balanced across all modules, with a slight reserve for emergency thruster bursts or weapon systems.</p>
-
-        <div class="content-with-image">
-            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.</p>
-            <img src="https://img.redbull.com/images/c_limit,w_1500,h_1000,f_auto,q_auto/redbullcom/2023/6/12/j9s31fvx4qclnry60i1n/starfield-screenshot-3" alt="Starfield Character Customization">
-        </div>
-      </div>
-
-      <div class="tab-content" id="references">
-        <h2>References & Sources</h2>
-        <p>This page is a fan-made UI concept inspired by Bethesda Game Studios' Starfield. All trademarks, copyrights, and intellectual property related to Starfield belong to ZeniMax Media Inc. and Bethesda Softworks LLC.</p>
-        <ul>
-            <li><a href="https://bethesda.net/en/game/starfield" target="_blank">Official Starfield Website</a></li>
-            <li><a href="https://starfield.fandom.com/wiki/Starfield_Wiki" target="_blank">Starfield Wiki (Fandom)</a></li>
-            <li><a href="https://www.artstation.com/eugeneshi" target="_blank">Eugene Shishkin's UI/UX Concepts (ArtStation)</a> - *Images used in Home tab.*</li>
-            <li>Other images sourced from official press kits and promotional materials.</li>
-        </ul>
-        <p>This project is for educational and demonstrative purposes only, showcasing UI/UX design concepts within the Starfield aesthetic. No commercial use is intended or implied.</p>
-      </div>
-
-    </main>
-  </div>
-
-  <footer>
-    <p>&copy; 2025 Constellation Archives. All rights reserved. UI Concept by [Your Name Here]</p>
-  </footer>
-
-  <div id="myLightbox" class="lightbox">
+  </div> <div id="myLightbox" class="lightbox">
     <span class="close-lightbox">&times;</span>
     <img class="lightbox-content" id="lightboxImg" src="">
   </div>
@@ -516,55 +516,69 @@
       const tabButtons = document.querySelectorAll('.tab-button');
       const tabContents = document.querySelectorAll('.tab-content');
 
-      tabContainer.addEventListener('click', (e) => {
-        const clicked = e.target.closest('.tab-button');
-        
-        if (!clicked) return;
+      if (tabContainer) {
+        tabContainer.addEventListener('click', (e) => {
+          const clicked = e.target.closest('.tab-button');
+          
+          if (!clicked) return;
 
-        const targetId = clicked.dataset.tab;
-        const targetContent = document.getElementById(targetId);
+          const targetId = clicked.dataset.tab;
+          const targetContent = document.getElementById(targetId);
 
-        tabButtons.forEach(button => {
-          button.classList.remove('active');
+          tabButtons.forEach(button => {
+            button.classList.remove('active');
+          });
+          tabContents.forEach(content => {
+            content.classList.remove('active');
+          });
+
+          clicked.classList.add('active');
+          if (targetContent) {
+            targetContent.classList.add('active');
+          }
         });
-        tabContents.forEach(content => {
-          content.classList.remove('active');
-        });
-
-        clicked.classList.add('active');
-        if (targetContent) {
-          targetContent.classList.add('active');
-        }
-      });
+      }
 
       // ========================================
-      // LOADING SCREEN LOGIC
+      // LOADING SCREEN LOGIC (DEBUG FIX)
       // ========================================
       const loadingScreen = document.querySelector('.loading-screen');
-      const body = document.body;
-
-      // Ensure content is initially hidden or at least not interactive before load
-      body.style.visibility = 'hidden'; 
-      body.style.opacity = '0';
+      const contentWrapper = document.querySelector('.content-wrapper'); // Target the wrapper
 
       window.addEventListener('load', () => {
-        // Wait a small moment to show the loading screen, then start curtain animation
-        setTimeout(() => {
-          loadingScreen.classList.add('hidden'); // Trigger the curtain animation
-          
-          // After the animation, fully remove the loading screen and show content
-          loadingScreen.addEventListener('animationend', () => {
-            loadingScreen.style.display = 'none';
-            body.classList.remove('loading');
-            body.style.visibility = 'visible';
-            body.style.opacity = '1';
-            // Trigger a reflow to ensure fadeIn animation works for initial tab
-            requestAnimationFrame(() => {
-                document.querySelector('.tab-content.active').classList.remove('active');
-                document.querySelector('.tab-content.active').classList.add('active');
-            });
-          }, { once: true }); // Ensure this listener only runs once
-        }, 500); // Small delay to ensure loading screen is seen
+        // Ensure loading screen and wrapper exist
+        if (loadingScreen && contentWrapper) {
+          // Wait a small moment to show the loading screen, then start curtain animation
+          setTimeout(() => {
+            loadingScreen.classList.add('hidden'); // Trigger the curtain animation
+            
+            // After the animation, fully remove the loading screen and show content
+            loadingScreen.addEventListener('animationend', () => {
+              loadingScreen.style.display = 'none';
+              
+              // Fade in the content wrapper
+              contentWrapper.style.visibility = 'visible';
+              contentWrapper.style.opacity = '1';
+
+              // Trigger a reflow to ensure fadeIn animation works for initial tab
+              requestAnimationFrame(() => {
+                const activeTab = document.querySelector('.tab-content.active');
+                if (activeTab) {
+                    activeTab.classList.remove('active');
+                    // Force reflow
+                    void activeTab.offsetWidth; 
+                    activeTab.classList.add('active');
+                }
+              });
+            }, { once: true });
+          }, 500); // Small delay to ensure loading screen is seen
+        } else {
+            // Failsafe in case elements are missing
+            if (contentWrapper) {
+                contentWrapper.style.visibility = 'visible';
+                contentWrapper.style.opacity = '1';
+            }
+        }
       });
 
       // ========================================
@@ -575,22 +589,24 @@
       const closeLightbox = document.querySelector('.close-lightbox');
       const contentImages = document.querySelectorAll('.content-with-image img');
 
-      contentImages.forEach(img => {
-        img.addEventListener('click', () => {
-          lightbox.style.display = 'flex'; // Use flex to center
-          lightboxImg.src = img.src;
+      if (lightbox && lightboxImg && closeLightbox) {
+        contentImages.forEach(img => {
+          img.addEventListener('click', () => {
+            lightbox.style.display = 'flex';
+            lightboxImg.src = img.src;
+          });
         });
-      });
 
-      closeLightbox.addEventListener('click', () => {
-        lightbox.style.display = 'none';
-      });
-
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) { // Close if clicked outside image but within lightbox
+        closeLightbox.addEventListener('click', () => {
           lightbox.style.display = 'none';
-        }
-      });
+        });
+
+        lightbox.addEventListener('click', (e) => {
+          if (e.target === lightbox) {
+            lightbox.style.display = 'none';
+          }
+        });
+      }
     });
   </script>
 
