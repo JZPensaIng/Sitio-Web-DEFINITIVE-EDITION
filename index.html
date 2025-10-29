@@ -136,9 +136,6 @@
       gap: 10px;
       border-bottom: 1px solid var(--color-border);
       margin-bottom: 30px;
-      /* Mobile optimization: allow scrolling */
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
     }
 
     .tab-button {
@@ -156,8 +153,6 @@
       transition: color 0.2s ease-out;
       border-bottom: 3px solid transparent;
       margin-bottom: -1px;
-      /* Mobile optimization: prevent line breaks */
-      white-space: nowrap; 
     }
 
     .tab-button:hover {
@@ -200,7 +195,7 @@
         padding: 8px 15px;
         cursor: pointer;
         transition: background-color 0.2s, color 0.2s;
-  _       letter-spacing: 1px;
+        letter-spacing: 1px;
     }
 
     .contextual-nav button:hover:not(:disabled) {
@@ -267,7 +262,7 @@
 
     .project-info {
         flex-grow: 1;
-  D }
+    }
 
     .project-info h3 {
         font-family: var(--font-primary);
@@ -357,7 +352,7 @@
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
         cursor: pointer;
         transition: transform 0.2s ease-in-out;
-CH }
+    }
 
     /* Lightbox styles omitted for brevity */
     .lightbox {
@@ -369,7 +364,7 @@ CH }
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.9);
-iOS     align-items: center;
+      align-items: center;
       justify-content: center;
     }
     .lightbox-content { max-width: 90%; max-height: 90%; object-fit: contain; }
@@ -389,7 +384,7 @@ iOS     align-items: center;
       font-family: var(--font-secondary);
       font-size: 0.9rem;
       letter-spacing: 1px;
-IA     text-transform: uppercase;
+      text-transform: uppercase;
     }
     
     .loading-screen {
@@ -402,7 +397,7 @@ IA     text-transform: uppercase;
       z-index: 10000;
       display: flex;
       align-items: center;
-      justify-content: center;
+  M   justify-content: center;
       overflow: hidden;
     }
 
@@ -417,7 +412,7 @@ IA     text-transform: uppercase;
       left: 0;
       width: 100%;
       height: 100%;
-SO     background: 
+      background: 
         radial-gradient(3px 3px at 10% 20%, #000, rgba(0,0,0,0)),
         radial-gradient(2px 2px at 40% 60%, #000, rgba(0,0,0,0)),
         radial-gradient(4px 4px at 75% 30%, #000, rgba(0,0,0,0)),
@@ -431,7 +426,7 @@ SO     background:
     @keyframes loadingStarMove {
       from { background-position: 0 0; }
       to { background-position: 500px 500px; }
-i }
+    }
 
     @keyframes curtainClose {
         0% { transform: translateY(0); opacity: 1; }
@@ -440,87 +435,41 @@ i }
     }
 
     /* ========================================
-     MOBILE OPTIMIZATIONS
+     NUEVO: OPTIMIZACIONES MÓVILES
+     Este bloque SÓLO se aplica en pantallas de 768px o menos
      ========================================
     */
     @media (max-width: 768px) {
-        /* Reduce header size */
-        header h1 {
-            font-size: 2rem;
-            letter-spacing: 4px;
-        }
-
-        /* Adjust container padding */
-        .container {
-            padding: 10px;
-        }
-
-        /* Make project list items stack */
-        .project-item {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 15px;
-            padding: 15px 5px; /* Tighter padding */
-        }
-
-        .project-item-img {
-            width: 100%; /* Full width */
-            height: 150px; /* Fixed height for consistency */
-        }
-
-        .project-info h3 {
-            font-size: 1.3rem;
-        }
-
-        .project-info p {
-            font-size: 1rem;
-        }
-
-        /* Contextual nav adjustments */
-        .contextual-nav {
-            flex-wrap: wrap; /* Allow wrapping */
-            gap: 10px;
-            justify-content: center; /* Center items when wrapped */
-        }
         
-        .contextual-nav .current-tab-title {
-            /* Full width on its own line */
-            width: 100%; 
-            text-align: center;
-            order: -1; /* Move title to the top */
-            font-size: 1.1rem;
-        }
-        
-        .contextual-nav button {
-            font-size: 0.8rem;
-            padding: 6px 10px;
-        }
-
-        /* Adjust other content */
-        .tab-content h2 {
-            font-size: 1.8rem;
-            letter-spacing: 2px;
-        }
-        
-        /* INSTRUCCIÓN: Hacer imágenes 55% más pequeñas en la pestaña "Modelo 3D"
-           100% (tamaño original) - 55% (reducción) = 45% (tamaño final)
-           Usamos max-width: 45%
-        */
+        /* 1. Tu solicitud: Reducir imagen en pestaña "Modelo 3D" (mission) 
+           (100% - 55% = 45% del ancho) */
         #mission .content-with-image img {
             max-width: 45%;
-            margin-left: auto; /* Centrar la imagen */
-            margin-right: auto; /* Centrar la imagen */
+            margin-left: auto; /* Centrar la imagen más pequeña */
+            margin-right: auto;
         }
 
-        /* Make ALL content images smaller on mobile for other tabs */
-        #codex .content-with-image img,
-        #system .content-with-image img {
-             max-width: 80%; /* Smaller, but not as small as #mission */
-             margin-left: auto;
-             margin-right: auto;
+        /* 2. Optimización necesaria: Permitir scroll horizontal en tabs */
+        .tab-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+        }
+        .tab-button {
+            white-space: nowrap; /* Evitar que el texto del botón se rompa */
         }
 
-    } /* Fin de @media (max-width: 768px) */
+        /* 3. Optimización necesaria: Apilar lista de proyectos en "Inicio" */
+        .project-item {
+            flex-direction: column; /* Apila imagen y texto */
+            align-items: flex-start; /* Alinea el texto a la izquierda */
+            gap: 15px;
+        }
+        .project-item-img {
+            width: 100%; /* La imagen ocupa todo el ancho disponible */
+            height: 150px; /* Altura fija para consistencia */
+        }
+        
+    } /* Fin del bloque de media query */
 
   </style>
 </head>
@@ -583,11 +532,11 @@ i }
               </li>
 
               <li class="project-item" data-target-tab="system">
-Ind                 <div class="project-item-img">
+                  <div class="project-item-img">
                       <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="System Board">
-                  </div>
+                m   </div>
                   <div class="project-info">
-Inst                   <h3>System Status & Diagnostics</h3>
+                      <h3>System Status & Diagnostics</h3>
                       <p>Estado nominal del equipo. Revisión de cartas de navegación y lecturas gravimétricas para el próximo salto de la nave.</p>
                       <div class="project-date">Revisión: 2025.02.01</div>
                   </div>
@@ -609,23 +558,23 @@ Inst                   <h3>System Status & Diagnostics</h3>
 
           <div class="content-with-image">
               <img src="Firgura[1].png" alt="Modelo de TinkerCad del portafolio.">
-              <div class="figure-caption">Figura 1. Presentando el modelo de TinkerCad de lo que será el modelo del portafolio.</div>
+s             <div class="figure-caption">Figura 1. Presentando el modelo de TinkerCad de lo que será el modelo del portafolio.</div>
           </div>
 
           <p>Después de imprimir en 3D, junté los modelos y coloqué un clip para que sirviera como parte movible, permitiendo al modelo abrirse y cerrarse. El portafolio sufrió daños en los costados porque los contornos eran débiles y poco gruesos.</p>
 
-      M     <div class="content-with-image">
+          <div class="content-with-image">
               <img src="Figura[4].jpg" alt="Proceso inicial de armado del portafolio.">
               <div class="figure-caption">Figura 2. Muestra el proceso inicial de armado del portafolio.</div>
           </div>
 
           <p>Al final, se hicieron varias pruebas para averiguar si el modelo era funcional. El modelo no cierra completamente; un pequeño error en la impresión colocó una capa más de lo que se debía en el engranaje principal.</p>
-Ind         
+          
           <p>Para terminar, el modelo sirve muy bien para guardar artículos pequeños, como monedas, tornillos, clips, piezas pequeñas, etc.</p>
 
           <div class="content-with-image">
               <img src="Figura[5].jpg" alt="Modelo armado, con artículos de prueba.">
-Two             <div class="figure-caption">Figura 3. El modelo armado, con algunos artículos de prueba.</div>
+              <div class="figure-caption">Figura 3. El modelo armado, con algunos artículos de prueba.</div>
           </div>
         </div>
 
@@ -636,18 +585,18 @@ Two             <div class="figure-caption">Figura 3. El modelo armado, co
           <div class="content-with-image">
               <p>They maintain a large, disciplined fleet and control vast territories. While seen as a beacon of stability by some, others view their expansion and bureaucracy with suspicion. Relations with the Freestar Collective remain tense after the Colony War, but a fragile peace currently holds.</p>
               <img src="https://images.gnwcdn.com/2023/articles/2023-08-31-09-54/starfield-release-date-times-preload-new-zealand-pc-xbox-game-pass-1693462479633.jpg/PRM/2000/H2000/CR0,0,2000,1051/FIXED/1693462479633.jpg" alt="New Atlantis Cityscape">
-Ind         </div>
+          </div>
         </div>
 
         <div class="tab-content" id="system">
           <h2>System Status</h2>
           <p>All systems nominal. Ship integrity at 100%. Grav-drive spooling is optimal. Reviewing navigational charts for the Alpha Centauri system. Environmental controls are stable, maintaining optimal life support for all crew.</p>
-          
+M         
           <div class="content-with-image">
               <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
-Ind             <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="Starfield Mission Board">
+              <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="Starfield Mission Board">
           </div>
-Note       </div>
+s       </div>
 
         <div class="tab-content" id="references">
           <h2>References & Sources</h2>
@@ -656,7 +605,7 @@ Note       </div>
               <li><a href="https://bethesda.net/en/game/starfield" target="_blank">Official Starfield Website</a></li>
               <li><a href="https://starfield.fandom.com/wiki/Starfield_Wiki" target="_blank">Starfield Wiki (Fandom)</a></li>
               <li><a href="https://www.artstation.com/eugeneshi" target="_blank">Eugene Shishkin's UI/UX Concepts (ArtStation)</a> - *Images used in Home tab.*</li>
-          s     <li>Other images sourced from official press kits and promotional materials.</li>
+          s   <li>Other images sourced from official press kits and promotional materials.</li>
           </ul>
           <p>This project is for educational and demonstrative purposes only, showcasing UI/UX design concepts within the Starfield aesthetic. No commercial use is intended or implied.</p>
         </div>
@@ -666,7 +615,7 @@ Note       </div>
 
     <footer>
       <p>&copy; 2025 Constellation Archives. All rights reserved. UI Concept by [Your Name Here]</p>
-s   </footer>
+    </footer>
 
   </div> <div id="myLightbox" class="lightbox">
     <span class="close-lightbox">&times;</span>
@@ -677,7 +626,7 @@ s   </footer>
     document.addEventListener('DOMContentLoaded', () => {
         
         // ========================================
-ind     // CORE ELEMENTS & CONFIGURATION
+        // CORE ELEMENTS & CONFIGURATION
         // ========================================
         const tabButtons = document.querySelectorAll('.tab-button');
         const tabContents = document.querySelectorAll('.tab-content');
@@ -688,7 +637,7 @@ ind     // CORE ELEMENTS & CONFIGURATION
         const contentImages = document.querySelectorAll('.content-with-image img');
         
         // Define the order of the main tabs (excluding home, which is special)
-s       // Note: The 'mission' tab now serves as the 'Modelo 3D' project.
+        // Note: The 'mission' tab now serves as the 'Modelo 3D' project.
         const tabOrder = ['mission', 'codex', 'system', 'references'];
 
 
@@ -702,12 +651,12 @@ s       // Note: The 'mission' tab now serves as the 'Modelo 3D' project.
             tabButtons.forEach(button => {
                 button.classList.remove('active');
                 if (button.dataset.tab === targetId) {
-Ind                 button.classList.add('active');
+                    button.classList.add('active');
                 }
             });
 
             // 2. Update Tab Content
-            tabContents.forEach(content => {
+s         tabContents.forEach(content => {
                 // Force re-animation by removing and adding active class
                 if (content.classList.contains('active')) {
                     content.classList.remove('active');
@@ -716,7 +665,7 @@ Ind                 button.classList.add('active');
                 }
             });
             const targetContent = document.getElementById(targetId);
-Ind         if (targetContent) {
+            if (targetContent) {
                 targetContent.classList.add('active');
             }
 
@@ -732,7 +681,7 @@ Ind         if (targetContent) {
                 // Get display name from button text (e.g., 'Mission' -> 'MODELO 3D')
                 const activeTabButton = document.querySelector(`.tab-button[data-tab="${targetId}"]`);
                 const displayName = activeTabButton ? activeTabButton.textContent.toUpperCase() : targetId.toUpperCase();
-Two
+
                 // Update title
                 currentTabTitle.textContent = displayName;
 
@@ -743,11 +692,11 @@ Two
                     const nextTabName = nextTabButton ? nextTabButton.textContent.toUpperCase() : nextTabId.toUpperCase();
                     
                     btnNextTab.textContent = `Siguiente: ${nextTabName} →`;
-Ind                 btnNextTab.dataset.targetTab = nextTabId;
+                    btnNextTab.dataset.targetTab = nextTabId;
                     btnNextTab.disabled = false;
                 } else {
                     btnNextTab.textContent = 'Fin del Archivo';
-                    btnNextTab.dataset.targetTab = '';
+NM                   btnNextTab.dataset.targetTab = '';
                     btnNextTab.disabled = true;
                 }
             }
@@ -759,7 +708,7 @@ Ind                 btnNextTab.dataset.targetTab = nextTabId;
         // ========================================
         
         // 1. Top Tab Navigation (Handles clicks on top buttons)
-Ind       document.querySelector('.tab-container').addEventListener('click', (e) => {
+        document.querySelector('.tab-container').addEventListener('click', (e) => {
             const clicked = e.target.closest('.tab-button');
             if (!clicked) return;
             switchTab(clicked.dataset.tab);
@@ -770,13 +719,13 @@ Ind       document.querySelector('.tab-container').addEventListener('click', 
             const clicked = e.target.closest('.project-item');
             if (!clicked) return;
             switchTab(clicked.dataset.targetTab);
-IND     });
+        });
 
         // 3. Home References Link (If they click the link inside Home)
         document.querySelector('.references-link a').addEventListener('click', (e) => {
             e.preventDefault();
             switchTab('references');
-        });
+Two     });
 
         // 4. Contextual Navigation (Back Home button)
         btnBackHome.addEventListener('click', () => {
@@ -784,7 +733,7 @@ IND     });
         });
 
         // 5. Contextual Navigation (Next Tab button)
-Ind       btnNextTab.addEventListener('click', () => {
+        btnNextTab.addEventListener('click', () => {
             const target = btnNextTab.dataset.targetTab;
             if (target) {
                 switchTab(target);
@@ -796,11 +745,11 @@ Ind       btnNextTab.addEventListener('click', () => {
         // INITIALIZATION & LOADING SCREEN
         // ========================================
         const loadingScreen = document.querySelector('.loading-screen');
-Ind       const contentWrapper = document.querySelector('.content-wrapper');
+        const contentWrapper = document.querySelector('.content-wrapper');
 
         window.addEventListener('load', () => {
             if (loadingScreen && contentWrapper) {
-                setTimeout(() => {
+IA             setTimeout(() => {
                     loadingScreen.classList.add('hidden');
                     
                     loadingScreen.addEventListener('animationend', () => {
@@ -811,14 +760,14 @@ Ind                     contentWrapper.style.opacity = '1';
 
                         // Ensure 'home' tab is correctly set up after loading
                         requestAnimationFrame(() => {
-                            switchTab('home');
-ci                     });
+            D               switchTab('home');
+                        });
                     }, { once: true });
                 }, 500); 
             } else if (contentWrapper) {
                 contentWrapper.style.visibility = 'visible';
                 contentWrapper.style.opacity = '1';
-Ind             switchTab('home'); // Failsafe
+                switchTab('home'); // Failsafe
             }
         });
 
@@ -827,14 +776,14 @@ Ind             switchTab('home'); // Failsafe
         // LIGHTBOX LOGIC
         // ========================================
         const lightbox = document.getElementById('myLightbox');
-ci       const lightboxImg = document.getElementById('lightboxImg');
+i       const lightboxImg = document.getElementById('lightboxImg');
         const closeLightbox = document.querySelector('.close-lightbox');
 
         if (lightbox && lightboxImg && closeLightbox) {
             contentImages.forEach(img => {
                 img.addEventListener('click', () => {
                     lightbox.style.display = 'flex';
-Ind                 lightboxImg.src = img.src;
+D                   lightboxImg.src = img.src;
                 });
             });
 
@@ -843,7 +792,7 @@ Ind                 lightboxImg.src = img.src;
             });
 
             lightbox.addEventListener('click', (e) => {
-i             if (e.target === lightbox) {
+                if (e.target === lightbox) {
                     lightbox.style.display = 'none';
                 }
             });
