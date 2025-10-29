@@ -254,8 +254,8 @@
     }
 
     .project-item-img img {
-        width: 50%;
-        height: 50%;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         display: block;
     }
@@ -344,7 +344,7 @@
     }
 
     .content-with-image img {
-        max-width: 100%;
+        max-width: 55%; /* Cambiado de 100% a 55% */
         height: auto;
         display: block;
         margin-top: 20px;
@@ -352,6 +352,8 @@
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
         cursor: pointer;
         transition: transform 0.2s ease-in-out;
+        margin-left: auto; /* Para centrar la imagen después de reducir su tamaño */
+        margin-right: auto; /* Para centrar la imagen después de reducir su tamaño */
     }
 
     /* Lightbox styles omitted for brevity */
