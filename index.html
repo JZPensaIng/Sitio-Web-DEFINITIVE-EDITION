@@ -1,767 +1,767 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Starfield UI Concept</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-  
-  <style>
-    /* ========================================
-    GLOBALS & AESTHETICS (STARFIELD PALETTE)
-    ========================================
-    */
-    :root {
-      --color-bg: #0C161C; /* Deep Space Navy */
-      --color-text: #F5F0E6; /* Off-white / Cream */
-      --color-accent: #E8D890; /* Constellation Yellow */
-      --color-accent-hover: #FFF;
-      --color-border: #3a4f5c; /* Faded UI Line */
-      --font-primary: 'Orbitron', sans-serif;
-      --font-secondary: 'Roboto', sans-serif;
-    }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starfield UI Concept</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ========================================
+    GLOBALS & AESTHETICS (STARFIELD PALETTE)
+    ========================================
+    */
+    :root {
+      --color-bg: #0C161C; /* Deep Space Navy */
+      --color-text: #F5F0E6; /* Off-white / Cream */
+      --color-accent: #E8D890; /* Constellation Yellow */
+      --color-accent-hover: #FFF;
+      --color-border: #3a4f5c; /* Faded UI Line */
+      --font-primary: 'Orbitron', sans-serif;
+      --font-secondary: 'Roboto', sans-serif;
+    }
 
-    body, html {
-      margin: 0;
-      padding: 0;
-      font-family: var(--font-secondary);
-      overflow-x: hidden;
-      background-color: var(--color-bg);
-      color: var(--color-text);
-      font-weight: 300;
-      letter-spacing: 0.5px;
-      height: 100%;
-    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-secondary);
+      overflow-x: hidden;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      height: 100%;
+    }
 
-    /* Animated Background & Overlay */
-    body::before { /* Background Image */
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
-      background-size: cover;
-      z-index: -3; 
-      animation: zoom 60s infinite linear alternate;
-    }
+    /* Animated Background & Overlay */
+    body::before { /* Background Image */
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      background-size: cover;
+      z-index: -3; 
+      animation: zoom 60s infinite linear alternate;
+    }
 
-    body::after { /* Dark overlay for readability */
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(12, 22, 28, 0.88);
-      z-index: -2; 
-    }
+    body::after { /* Dark overlay for readability */
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(12, 22, 28, 0.88);
+      z-index: -2; 
+    }
 
-    @keyframes zoom {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.1); }
-    }
+    @keyframes zoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
 
-    /* Animated Stars (Foreground Effect - SPARSE AND RANDOMIZED) */
-    .star-effect {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1; 
-      pointer-events: none;
-      background: 
-        radial-gradient(1px 1px at 15% 25%, var(--color-text), rgba(255,255,255,0)),
-        radial-gradient(2.5px 2.5px at 70% 80%, var(--color-text), rgba(255,255,255,0)),
-        radial-gradient(1.5px 1.5px at 45% 10%, var(--color-text), rgba(255,255,255,0)),
-        radial-gradient(2px 2px at 90% 40%, var(--color-text), rgba(255,255,255,0));
-      background-size: 600px 600px; 
-      opacity: 0.2;
-      animation: starMove 100s linear infinite;
-    }
+    /* Animated Stars (Foreground Effect - SPARSE AND RANDOMIZED) */
+    .star-effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; 
+      pointer-events: none;
+      background: 
+        radial-gradient(1px 1px at 15% 25%, var(--color-text), rgba(255,255,255,0)),
+        radial-gradient(2.5px 2.5px at 70% 80%, var(--color-text), rgba(255,255,255,0)),
+        radial-gradient(1.5px 1.5px at 45% 10%, var(--color-text), rgba(255,255,255,0)),
+        radial-gradient(2px 2px at 90% 40%, var(--color-text), rgba(255,255,255,0));
+      background-size: 600px 600px; 
+      opacity: 0.2;
+      animation: starMove 100s linear infinite;
+    }
 
-    @keyframes starMove {
-      from { background-position: 0 0; }
-      to { background-position: 10000px 10000px; }
-    }
+    @keyframes starMove {
+      from { background-position: 0 0; }
+      to { background-position: 10000px 10000px; }
+    }
 
-    /* ========================================
-    LAYOUT & STRUCTURE
-    ========================================
-    */
-    .content-wrapper {
-      position: relative;
-      z-index: 1;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.5s ease-in-out;
-    }
-    
-    header {
-      background-color: var(--color-text);
-      padding: 15px 0;
-      margin-bottom: 30px;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-    }
+    /* ========================================
+    LAYOUT & STRUCTURE
+    ========================================
+    */
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    
+    header {
+      background-color: var(--color-text);
+      padding: 15px 0;
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
 
-    header h1 {
-      font-family: var(--font-primary);
-      font-size: 3rem;
-      letter-spacing: 8px;
-      text-transform: uppercase;
-      color: var(--color-bg);
-      font-weight: 700;
-      margin: 0;
-      display: inline-block;
-      padding: 0 20px;
-    }
+    header h1 {
+      font-family: var(--font-primary);
+      font-size: 3rem;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--color-bg);
+      font-weight: 700;
+      margin: 0;
+      display: inline-block;
+      padding: 0 20px;
+    }
 
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-    /* ========================================
-    NAVIGATION & TABS
-    ========================================
-    */
-    .tab-container {
-      display: flex;
-      justify-content: flex-start;
-      gap: 10px;
-      border-bottom: 1px solid var(--color-border);
-      margin-bottom: 30px;
-    }
+    /* ========================================
+    NAVIGATION & TABS
+    ========================================
+    */
+    .tab-container {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 30px;
+    }
 
-    .tab-button {
-      font-family: var(--font-primary);
-      font-size: 1rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--color-text);
-      background: none;
-      border: none;
-      padding: 15px 25px;
-      cursor: pointer;
-      position: relative;
-      transition: color 0.2s ease-out;
-      border-bottom: 3px solid transparent;
-      margin-bottom: -1px;
-    }
+    .tab-button {
+      font-family: var(--font-primary);
+      font-size: 1rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--color-text);
+      background: none;
+      border: none;
+      padding: 15px 25px;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s ease-out;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -1px;
+    }
 
-    .tab-button:hover {
-      color: var(--color-accent-hover);
-    }
+    .tab-button:hover {
+      color: var(--color-accent-hover);
+    }
 
-    .tab-button.active {
-      color: var(--color-accent);
-      border-bottom-color: var(--color-accent);
-    }
+    .tab-button.active {
+      color: var(--color-accent);
+      border-bottom-color: var(--color-accent);
+    }
 
-    .tab-content {
-      display: none;
-      animation: fadeIn 0.5s ease-out;
-      padding-bottom: 50px;
-    }
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+      padding-bottom: 50px;
+    }
 
-    .tab-content.active {
-      display: block;
-    }
-    
-    /* CONTEXTUAL NAVIGATION STYLES */
-    .contextual-nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid var(--color-border);
-    }
-    
-    .contextual-nav button {
-        font-family: var(--font-primary);
-        font-size: 0.9rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        color: var(--color-accent);
-        background: none;
-        border: 1px solid var(--color-accent);
-        padding: 8px 15px;
-        cursor: pointer;
-        transition: background-color 0.2s, color 0.2s;
-        letter-spacing: 1px;
-    }
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* CONTEXTUAL NAVIGATION STYLES */
+    .contextual-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--color-border);
+    }
+    
+    .contextual-nav button {
+        font-family: var(--font-primary);
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: var(--color-accent);
+        background: none;
+        border: 1px solid var(--color-accent);
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s;
+        letter-spacing: 1px;
+    }
 
-    .contextual-nav button:hover:not(:disabled) {
-        background-color: var(--color-accent);
-        color: var(--color-bg);
-    }
-    
-    .contextual-nav button:disabled {
-        opacity: 0.5;
-        cursor: default;
-        border-color: var(--color-border);
-        color: var(--color-border);
-    }
-    
-    .contextual-nav .current-tab-title {
-        font-family: var(--font-primary);
-        font-size: 1.2rem;
-        color: var(--color-text);
-    }
-
-
-    /* ========================================
-    HOME TAB LAYOUT (PROJECT LIST)
-    ========================================
-    */
-    .project-list {
-        list-style: none;
-        padding: 0;
-    }
-    
-    .project-item {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-        padding: 20px 0;
-        border-bottom: 1px solid var(--color-border);
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-
-    .project-item:hover {
-        background-color: rgba(232, 216, 144, 0.05); /* Subtle hover */
-    }
-
-    .project-item:first-child {
-        border-top: 1px solid var(--color-border);
-    }
-    
-    .project-item-img {
-        flex-shrink: 0; /* Prevents image from shrinking */
-        width: 150px;
-        height: 100px;
-        overflow: hidden;
-        border-radius: 8px; /* Rounded corners */
-        border: 2px solid var(--color-border);
-    }
-
-    .project-item-img img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .project-info {
-        flex-grow: 1;
-    }
-
-    .project-info h3 {
-  M     font-family: var(--font-primary);
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--color-accent);
-        margin: 0 0 5px 0;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-    }
-
-    .project-info p {
-        margin: 0;
-        font-size: 1.05rem;
-        line-height: 1.5;
-    }
-
-    .project-date {
-        font-size: 0.9rem;
-        color: #888;
-        margin-top: 5px;
-        font-style: italic;
-    }
-    
-nbsp   /* References specific styling inside Home */
-    .references-link {
-        display: block;
-        text-align: right;
-        margin-top: 30px;
-        font-family: var(--font-primary);
-    }
-
-    .references-link a {
-        color: var(--color-accent);
-        text-decoration: none;
-        transition: color 0.2s ease-out;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    .references-link a:hover {
-        color: var(--color-accent-hover);
-        text-decoration: underline;
-    }
+    .contextual-nav button:hover:not(:disabled) {
+        background-color: var(--color-accent);
+        color: var(--color-bg);
+    }
+    
+    .contextual-nav button:disabled {
+        opacity: 0.5;
+        cursor: default;
+        border-color: var(--color-border);
+        color: var(--color-border);
+    }
+    
+    .contextual-nav .current-tab-title {
+        font-family: var(--font-primary);
+        font-size: 1.2rem;
+        color: var(--color-text);
+    }
 
 
-    /* ========================================
-    OTHER CONTENT STYLES (Kept for completeness)
-    ========================================
-    */
-    .tab-content h2 {
-      font-family: var(--font-primary);
-      font-size: 2.2rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      color: var(--color-accent);
-      margin-top: 0;
-      margin-bottom: 25px;
-    }
+    /* ========================================
+    HOME TAB LAYOUT (PROJECT LIST)
+    ========================================
+    */
+    .project-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .project-item {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--color-border);
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
 
-    /* Styles for Figure Captions */
-    .figure-caption {
-        font-size: 0.9rem;
-        color: #aaa;
-        margin-top: 5px;
-        text-align: center;
-        font-style: italic;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .content-with-image {
-        display: flex;
-        flex-direction: column;
-    A   margin-bottom: 40px;
-    }
+    .project-item:hover {
+        background-color: rgba(232, 216, 144, 0.05); /* Subtle hover */
+    }
 
-    .content-with-image img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin-top: 20px;
-        border: 1px solid var(--color-border);
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-        cursor: pointer;
-        transition: transform 0.2s ease-in-out;
-section   }
+    .project-item:first-child {
+        border-top: 1px solid var(--color-border);
+    }
+    
+    .project-item-img {
+        flex-shrink: 0; /* Prevents image from shrinking */
+        width: 150px;
+        height: 100px;
+        overflow: hidden;
+        border-radius: 8px; /* Rounded corners */
+        border: 2px solid var(--color-border);
+    }
 
-    /* Lightbox styles omitted for brevity */
-    .lightbox {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
-      align-items: center;
-      justify-content: center;
-    }
-    .lightbox-content { max-width: 90%; max-height: 90%; object-fit: contain; }
-    .close-lightbox { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; }
+    .project-item-img img {
+        width: 50%;
+        height: 50%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .project-info {
+        flex-grow: 1;
+    }
+
+    .project-info h3 {
+        font-family: var(--font-primary);
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-accent);
+        margin: 0 0 5px 0;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .project-info p {
+        margin: 0;
+        font-size: 1.05rem;
+        line-height: 1.5;
+    }
+
+    .project-date {
+        font-size: 0.9rem;
+        color: #888;
+        margin-top: 5px;
+        font-style: italic;
+    }
+    
+    /* References specific styling inside Home */
+    .references-link {
+        display: block;
+        text-align: right;
+        margin-top: 30px;
+        font-family: var(--font-primary);
+    }
+
+    .references-link a {
+        color: var(--color-accent);
+        text-decoration: none;
+        transition: color 0.2s ease-out;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .references-link a:hover {
+        color: var(--color-accent-hover);
+        text-decoration: underline;
+    }
 
 
-    /* ========================================
-    FOOTER & LOADING SCREEN
-    ========================================
-    */
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-section     margin-top: 60px;
-      border-top: 1px solid var(--color-border);
-      color: #888;
-      font-family: var(--font-secondary);
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-section     text-transform: uppercase;
-    }
-    
-    .loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: var(--color-text);
-      z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-Ind }
+    /* ========================================
+    OTHER CONTENT STYLES (Kept for completeness)
+    ========================================
+    */
+    .tab-content h2 {
+      font-family: var(--font-primary);
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--color-accent);
+      margin-top: 0;
+      margin-bottom: 25px;
+    }
 
-    .loading-screen.hidden {
-      animation: curtainClose 1.5s forwards;
-    }
+    /* Styles for Figure Captions */
+    .figure-caption {
+        font-size: 0.9rem;
+        color: #aaa;
+        margin-top: 5px;
+        text-align: center;
+        font-style: italic;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .content-with-image {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 40px;
+    }
 
-    .loading-screen::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(3px 3px at 10% 20%, #000, rgba(0,0,0,0)),
-        radial-gradient(2px 2px at 40% 60%, #000, rgba(0,0,0,0)),
-        radial-gradient(4px 4px at 75% 30%, #000, rgba(0,0,0,0)),
-Ind       radial-gradient(2px 2px at 95% 85%, #000, rgba(0,0,0,0)),
-        radial-gradient(3px 3px at 55% 5%, #000, rgba(0,0,0,0));
-      background-size: 200px 200px; 
-      opacity: 0.5;
-      animation: loadingStarMove 5s linear infinite;
-    }
+    .content-with-image img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-top: 20px;
+        border: 1px solid var(--color-border);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+    }
 
-    @keyframes loadingStarMove {
-      from { background-position: 0 0; }
-      to { background-position: 500px 500px; }
-    }
+    /* Lightbox styles omitted for brevity */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-content { max-width: 90%; max-height: 90%; object-fit: contain; }
+    .close-lightbox { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; }
 
-    @keyframes curtainClose {
-        0% { transform: translateY(0); opacity: 1; }
-        50% { opacity: 1; }
-        100% { transform: translateY(-100%); opacity: 0; visibility: hidden; }
-    }
 
-  </style>
+    /* ========================================
+    FOOTER & LOADING SCREEN
+    ========================================
+    */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 60px;
+      border-top: 1px solid var(--color-border);
+      color: #888;
+      font-family: var(--font-secondary);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--color-text);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .loading-screen.hidden {
+      animation: curtainClose 1.5s forwards;
+    }
+
+    .loading-screen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(3px 3px at 10% 20%, #000, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40% 60%, #000, rgba(0,0,0,0)),
+        radial-gradient(4px 4px at 75% 30%, #000, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 95% 85%, #000, rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 55% 5%, #000, rgba(0,0,0,0));
+      background-size: 200px 200px; 
+      opacity: 0.5;
+      animation: loadingStarMove 5s linear infinite;
+    }
+
+    @keyframes loadingStarMove {
+      from { background-position: 0 0; }
+      to { background-position: 500px 500px; }
+    }
+
+    @keyframes curtainClose {
+        0% { transform: translateY(0); opacity: 1; }
+        50% { opacity: 1; }
+        100% { transform: translateY(-100%); opacity: 0; visibility: hidden; }
+    }
+
+  </style>
 </head>
 <body>
 
-  <div class="loading-screen"></div>
+  <div class="loading-screen"></div>
 
-  <div class="star-effect"></div>
+  <div class="star-effect"></div>
 
-  <div class="content-wrapper">
-    
-    <header>
-      <h1>ZUARTH WEB</h1>
-    </header>
+  <div class="content-wrapper">
+    
+    <header>
+      <h1>ZUARTH WEB</h1>
+    </header>
 
-    <div class="container">
-      
-      <nav class="contextual-nav" style="display: none;">
-          <button id="btn-back-home">← Volver al Menú Principal</button>
-          <span class="current-tab-title"></span>
-          <button id="btn-next-tab">Siguiente Misión →</button>
-      </nav>
+    <div class="container">
+      
+      <nav class="contextual-nav" style="display: none;">
+          <button id="btn-back-home">← Volver al Menú Principal</button>
+          <span class="current-tab-title"></span>
+          <button id="btn-next-tab">Siguiente Misión →</button>
+      </nav>
 
-      <nav class="tab-container">
-        <button class="tab-button active" data-tab="home">Inicio</button>
-        <button class="tab-button" data-tab="mission">Modelo 3D</button>
-        <button class="tab-button" data-tab="codex">Cubo</button>
-        <button class="tab-button" data-tab="system">PCB</button>
-        <button class="tab-button" data-tab="references">Referencias</button>
-      </nav>
+      <nav class="tab-container">
+        <button class="tab-button active" data-tab="home">Inicio</button>
+        <button class="tab-button" data-tab="mission">Modelo 3D</button>
+        <button class="tab-button" data-tab="codex">Cubo</button>
+        <button class="tab-button" data-tab="system">PCB</button>
+        <button class="tab-button" data-tab="references">Referencias</button>
+      </nav>
 
-      <main class="content-container">
+      <main class="content-container">
 
-        <div class="tab-content active" id="home">
-Ind       <h2>Constellation Projects & Archives</h2>
-          <p>Explora los archivos de Constellation y nuestras misiones activas en los Sistemas Colonizados.</p>
-          
-          <ul class="project-list">
-              
-              <li class="project-item" data-target-tab="mission">
-                  <div class="project-item-img">
-                      <img src="Firgura[1].png" alt="Modelo 3D Portafolio">
-                  </div>
-                  <div class="project-info">
-                      <h3>Modelo 3D</h3>
-                      <p>El modelo 3D de prueba, el objetivo es lograr que tenga partes que se muevan sin romperse.</p>
-                      <div class="project-date">Publicado: 27/10/2025</div>
-                  </div>
-              </li>
-              
-              <li class="project-item" data-target-tab="codex">
-                  <div class="project-item-img">
-                      <img src="https://images.gnwcdn.com/2023/articles/2023-08-31-09-54/starfield-release-date-times-preload-new-zealand-pc-xbox-game-pass-1693462479633.jpg/PRM/2000/H2000/CR0,0,2000,1051/FIXED/1693462479633.jpg" alt="New Atlantis">
-                  </div>
-                  <div class="project-info">
-                      <h3>Codex: United Colonies</h3>
-                      <p>La facción militar y política más poderosa. Análisis de su flota, territorio y las tensas relaciones con el Colectivo Freestar.</p>
-                      <div class="project-date">Actualizado: 2025.01.25</div>
-                  </div>
-              </li>
+        <div class="tab-content active" id="home">
+          <h2>Constellation Projects & Archives</h2>
+          <p>Explora los archivos de Constellation y nuestras misiones activas en los Sistemas Colonizados.</p>
+          
+          <ul class="project-list">
+              
+              <li class="project-item" data-target-tab="mission">
+                  <div class="project-item-img">
+                      <img src="Firgura[1].png" alt="Modelo 3D Portafolio">
+                  </div>
+                  <div class="project-info">
+                      <h3>Modelo 3D</h3>
+                      <p>El modelo 3D de prueba, el objetivo es lograr que tenga partes que se muevan sin romperse.</p>
+                      <div class="project-date">Publicado: 27/10/2025</div>
+                  </div>
+              </li>
+              
+              <li class="project-item" data-target-tab="codex">
+                  <div class="project-item-img">
+                      <img src="https://images.gnwcdn.com/2023/articles/2023-08-31-09-54/starfield-release-date-times-preload-new-zealand-pc-xbox-game-pass-1693462479633.jpg/PRM/2000/H2000/CR0,0,2000,1051/FIXED/1693462479633.jpg" alt="New Atlantis">
+                  </div>
+                  <div class="project-info">
+                      <h3>Codex: United Colonies</h3>
+                      <p>La facción militar y política más poderosa. Análisis de su flota, territorio y las tensas relaciones con el Colectivo Freestar.</p>
+                      <div class="project-date">Actualizado: 2025.01.25</div>
+                  </div>
+              </li>
 
-              <li class="project-item" data-target-tab="system">
-                  <div class="project-item-img">
-                Ind     <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="System Board">
-                  </div>
-                  <div class="project-info">
-      Ind             <h3>System Status & Diagnostics</h3>
-                      <p>Estado nominal del equipo. Revisión de cartas de navegación y lecturas gravimétricas para el próximo salto de la nave.</p>
-                      <div class="project-date">Revisión: 2025.02.01</div>
-                  </div>
-              </li>
+              <li class="project-item" data-target-tab="system">
+                  <div class="project-item-img">
+                      <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="System Board">
+                  </div>
+                  <div class="project-info">
+                      <h3>System Status & Diagnostics</h3>
+                      <p>Estado nominal del equipo. Revisión de cartas de navegación y lecturas gravimétricas para el próximo salto de la nave.</p>
+                      <div class="project-date">Revisión: 2025.02.01</div>
+                  </div>
+              </li>
 
-          </ul>
+          </ul>
 
-          <div class="references-link">
-              <a href="#" data-tab="references" class="tab-button-link">Referencias y Créditos al final de la lista →</a>
-          </div>
-        </div>
+          <div class="references-link">
+              <a href="#" data-tab="references" class="tab-button-link">Referencias y Créditos al final de la lista →</a>
+          </div>
+        </div>
 
-        <div class="tab-content" id="mission">
-          <h2>Modelo 3D - Prototipo de Portafolio</h2>
-          
-          <p>El objetivo es crear un modelo en 3D que podamos imprimir, no solo para conseguir algo funcional, sino para aprender el proceso de impresión de piezas.</p>
-          
-          <p>El día 17 de septiembre, se empezó con un modelo de prueba de un astronauta, que serviría como muñeco con partes móviles, pero se descartó al ser muy pequeño. En su lugar, creé un portafolio con el objetivo de guardar cosas adentro, fácil de imprimir y de armar.</p>
+        <div class="tab-content" id="mission">
+          <h2>Modelo 3D - Prototipo de Portafolio</h2>
+          
+          <p>El objetivo es crear un modelo en 3D que podamos imprimir, no solo para conseguir algo funcional, sino para aprender el proceso de impresión de piezas.</p>
+          
+          <p>El día 17 de septiembre, se empezó con un modelo de prueba de un astronauta, que serviría como muñeco con partes móviles, pero se descartó al ser muy pequeño. En su lugar, creé un portafolio con el objetivo de guardar cosas adentro, fácil de imprimir y de armar.</p>
 
-          <div class="content-with-image">
-              <img src="Firgura[1].png" alt="Modelo de TinkerCad del portafolio.">
-              <div class="figure-caption">Figura 1. Presentando el modelo de TinkerCad de lo que será el modelo del portafolio.</div>
-          </div>
+          <div class="content-with-image">
+              <img src="Firgura[1].png" alt="Modelo de TinkerCad del portafolio.">
+              <div class="figure-caption">Figura 1. Presentando el modelo de TinkerCad de lo que será el modelo del portafolio.</div>
+          </div>
 
-          <p>Después de imprimir en 3D, junté los modelos y coloqué un clip para que sirviera como parte movible, permitiendo al modelo abrirse y cerrarse. El portafolio sufrió daños en los costados porque los contornos eran débiles y poco gruesos.</p>
+          <p>Después de imprimir en 3D, junté los modelos y coloqué un clip para que sirviera como parte movible, permitiendo al modelo abrirse y cerrarse. El portafolio sufrió daños en los costados porque los contornos eran débiles y poco gruesos.</p>
 
-          <div class="content-with-image">
-              <img src="Figura[4].jpg" alt="Proceso inicial de armado del portafolio.">
-              <div class="figure-caption">Figura 2. Muestra el proceso inicial de armado del portafolio.</div>
-          </div>
+          <div class="content-with-image">
+              <img src="Figura[4].jpg" alt="Proceso inicial de armado del portafolio.">
+              <div class="figure-caption">Figura 2. Muestra el proceso inicial de armado del portafolio.</div>
+          </div>
 
-          <p>Al final, se hicieron varias pruebas para averiguar si el modelo era funcional. El modelo no cierra completamente; un pequeño error en la impresión colocó una capa más de lo que se debía en el engranaje principal.</p>
-          
-          <p>Para terminar, el modelo sirve muy bien para guardar artículos pequeños, como monedas, tornillos, clips, piezas pequeñas, etc.</p>
+          <p>Al final, se hicieron varias pruebas para averiguar si el modelo era funcional. El modelo no cierra completamente; un pequeño error en la impresión colocó una capa más de lo que se debía en el engranaje principal.</p>
+          
+          <p>Para terminar, el modelo sirve muy bien para guardar artículos pequeños, como monedas, tornillos, clips, piezas pequeñas, etc.</p>
 
-          <div class="content-with-image">
-              <img src="Figura[5].jpg" alt="Modelo armado, con artículos de prueba.">
-Ind             <div class="figure-caption">Figura 3. El modelo armado, con algunos artículos de prueba.</div>
-          </div>
-        </div>
+          <div class="content-with-image">
+              <img src="Figura[5].jpg" alt="Modelo armado, con artículos de prueba.">
+              <div class="figure-caption">Figura 3. El modelo armado, con algunos artículos de prueba.</div>
+          </div>
+        </div>
 
-        <div class="tab-content" id="codex">
-          <h2>Codex: United Colonies</h2>
-          <p>The United Colonies (UC) is the most powerful, established military and political faction in the Settled Systems. Based in New Atlantis on the planet Jemison, the UC embodies the spirit of a centralized, law-abiding republic.</p>
-          
-          <div class="content-with-image">
-              <p>They maintain a large, disciplined fleet and control vast territories. While seen as a beacon of stability by some, others view their expansion and bureaucracy with suspicion. Relations with the Freestar Collective remain tense after the Colony War, but a fragile peace currently holds.</p>
-section             <img src="https://images.gnwcdn.com/2023/articles/2023-08-31-09-54/starfield-release-date-times-preload-new-zealand-pc-xbox-game-pass-1693462479633.jpg/PRM/2000/H2000/CR0,0,2000,1051/FIXED/1693462479633.jpg" alt="New Atlantis Cityscape">
-          </div>
-        </div>
+        <div class="tab-content" id="codex">
+          <h2>Codex: United Colonies</h2>
+          <p>The United Colonies (UC) is the most powerful, established military and political faction in the Settled Systems. Based in New Atlantis on the planet Jemison, the UC embodies the spirit of a centralized, law-abiding republic.</p>
+          
+          <div class="content-with-image">
+              <p>They maintain a large, disciplined fleet and control vast territories. While seen as a beacon of stability by some, others view their expansion and bureaucracy with suspicion. Relations with the Freestar Collective remain tense after the Colony War, but a fragile peace currently holds.</p>
+              <img src="https://images.gnwcdn.com/2023/articles/2023-08-31-09-54/starfield-release-date-times-preload-new-zealand-pc-xbox-game-pass-1693462479633.jpg/PRM/2000/H2000/CR0,0,2000,1051/FIXED/1693462479633.jpg" alt="New Atlantis Cityscape">
+          </div>
+        </div>
 
-        <div class="tab-content" id="system">
-          <h2>System Status</h2>
-          <p>All systems nominal. Ship integrity at 100%. Grav-drive spooling is optimal. Reviewing navigational charts for the Alpha Centauri system. Environmental controls are stable, maintaining optimal life support for all crew.</p>
-          
-          <div class="content-with-image">
-              <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
-Ind             <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="Starfield Mission Board">
-          </div>
-        </div>
+        <div class="tab-content" id="system">
+          <h2>System Status</h2>
+          <p>All systems nominal. Ship integrity at 100%. Grav-drive spooling is optimal. Reviewing navigational charts for the Alpha Centauri system. Environmental controls are stable, maintaining optimal life support for all crew.</p>
+          
+          <div class="content-with-image">
+              <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
+              <img src="https://sm.ign.com/ign_br/screenshot/default/sf-20220612-01-constellation-mission-board_72j2.jpg" alt="Starfield Mission Board">
+          </div>
+        </div>
 
-section       <div class="tab-content" id="references">
-          <h2>References & Sources</h2>
-          <p>This page is a fan-made UI concept inspired by Bethesda Game Studios' Starfield. All trademarks, copyrights, and intellectual property related to Starfield belong to ZeniMax Media Inc. and Bethesda Softworks LLC.</p>
-          <ul>
-              <li><a href="https://bethesda.net/en/game/starfield" target="_blank">Official Starfield Website</a></li>
-              <li><a href="https://starfield.fandom.com/wiki/Starfield_Wiki" target="_blank">Starfield Wiki (Fandom)</a></li>
-              <li><a href="https://www.artstation.com/eugeneshi" target="_blank">Eugene Shishkin's UI/UX Concepts (ArtStation)</a> - *Images used in Home tab.*</li>
-              <li>Other images sourced from official press kits and promotional materials.</li>
-          </ul>
-          <p>This project is for educational and demonstrative purposes only, showcasing UI/UX design concepts within the Starfield aesthetic. No commercial use is intended or implied.</p>
-        </div>
+        <div class="tab-content" id="references">
+          <h2>References & Sources</h2>
+          <p>This page is a fan-made UI concept inspired by Bethesda Game Studios' Starfield. All trademarks, copyrights, and intellectual property related to Starfield belong to ZeniMax Media Inc. and Bethesda Softworks LLC.</p>
+          <ul>
+              <li><a href="https://bethesda.net/en/game/starfield" target="_blank">Official Starfield Website</a></li>
+              <li><a href="https://starfield.fandom.com/wiki/Starfield_Wiki" target="_blank">Starfield Wiki (Fandom)</a></li>
+              <li><a href="https://www.artstation.com/eugeneshi" target="_blank">Eugene Shishkin's UI/UX Concepts (ArtStation)</a> - *Images used in Home tab.*</li>
+              <li>Other images sourced from official press kits and promotional materials.</li>
+          </ul>
+          <p>This project is for educational and demonstrative purposes only, showcasing UI/UX design concepts within the Starfield aesthetic. No commercial use is intended or implied.</p>
+        </div>
 
-      </main>
-    </div>
+      </main>
+    </div>
 
-    <footer>
-      <p>&copy; 2025 Constellation Archives. All rights reserved. UI Concept by [Your Name Here]</p>
-    </footer>
+    <footer>
+      <p>&copy; 2025 Constellation Archives. All rights reserved. UI Concept by [Your Name Here]</p>
+    </footer>
 
-  </div> <div id="myLightbox" class="lightbox">
-    <span class="close-lightbox">&times;</span>
-    <img class="lightbox-content" id="lightboxImg" src="">
-  </div>
+  </div> <div id="myLightbox" class="lightbox">
+    <span class="close-lightbox">&times;</span>
+    <img class="lightbox-content" id="lightboxImg" src="">
+  </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        
-        // ========================================
-        // CORE ELEMENTS & CONFIGURATION
-        // ========================================
-        const tabButtons = document.querySelectorAll('.tab-button');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const contextualNav = document.querySelector('.contextual-nav');
-        const btnBackHome = document.getElementById('btn-back-home');
-    section   const btnNextTab = document.getElementById('btn-next-tab');
-        const currentTabTitle = document.querySelector('.current-tab-title');
-        const contentImages = document.querySelectorAll('.content-with-image img');
-        
-        // Define the order of the main tabs (excluding home, which is special)
-        // Note: The 'mission' tab now serves as the 'Modelo 3D' project.
-        const tabOrder = ['mission', 'codex', 'system', 'references'];
-
-
-        /**
-         * Switches the active tab content and updates the navigation state.
-         * @param {string} targetId - The ID of the tab content to activate.
-         */
-        function switchTab(targetId) {
-            
-            // 1. Update Tab Buttons (Top Navigation)
-            tabButtons.forEach(button => {
-                button.classList.remove('active');
-                if (button.dataset.tab === targetId) {
-                    button.classList.add('active');
-                }
-            });
-
-            // 2. Update Tab Content
-            tabContents.forEach(content => {
-                // Force re-animation by removing and adding active class
-                if (content.classList.contains('active')) {
-                    content.classList.remove('active');
-                Ind   // Force reflow for fade-in animation
-                    void content.offsetWidth;
-                }
-            });
-            const targetContent = document.getElementById(targetId);
-            if (targetContent) {
-                targetContent.classList.add('active');
-            }
-
-            // 3. Update Contextual Navigation
-            const isHome = targetId === 'home';
-            contextualNav.style.display = isHome ? 'none' : 'flex';
-
-            if (!isHome) {
-                const currentTabIndex = tabOrder.indexOf(targetId);
-                const nextTabIndex = currentTabIndex + 1;
-                const nextTabId = tabOrder[nextTabIndex];
-  Ind           
-                // Get display name from button text (e.g., 'Mission' -> 'MODELO 3D')
-                const activeTabButton = document.querySelector(`.tab-button[data-tab="${targetId}"]`);
-                const displayName = activeTabButton ? activeTabButton.textContent.toUpperCase() : targetId.toUpperCase();
-
-Ind             // Update title
-                currentTabTitle.textContent = displayName;
-
-                // Update next button
-                if (nextTabId) {
-                    // Get the text of the next tab button for the label
-section                 const nextTabButton = document.querySelector(`.tab-button[data-tab="${nextTabId}"]`);
-                    const nextTabName = nextTabButton ? nextTabButton.textContent.toUpperCase() : nextTabId.toUpperCase();
-                    
-                    btnNextTab.textContent = `Siguiente: ${nextTabName} →`;
-                    btnNextTab.dataset.targetTab = nextTabId;
-                    btnNextTab.disabled = false;
-                } else {
-                    btnNextTab.textContent = 'Fin del Archivo';
-Ind                 btnNextTab.dataset.targetTab = '';
-                    btnNextTab.disabled = true;
-                }
-            }
-        }
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // ========================================
+        // CORE ELEMENTS & CONFIGURATION
+        // ========================================
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const contextualNav = document.querySelector('.contextual-nav');
+        const btnBackHome = document.getElementById('btn-back-home');
+        const btnNextTab = document.getElementById('btn-next-tab');
+        const currentTabTitle = document.querySelector('.current-tab-title');
+        const contentImages = document.querySelectorAll('.content-with-image img');
+        
+        // Define the order of the main tabs (excluding home, which is special)
+        // Note: The 'mission' tab now serves as the 'Modelo 3D' project.
+        const tabOrder = ['mission', 'codex', 'system', 'references'];
 
 
-        // ========================================
-        // EVENT LISTENERS
-        // ========================================
-    text   
-        // 1. Top Tab Navigation (Handles clicks on top buttons)
-        document.querySelector('.tab-container').addEventListener('click', (e) => {
-            const clicked = e.target.closest('.tab-button');
-            if (!clicked) return;
-            switchTab(clicked.dataset.tab);
-        });
-        
-        // 2. Home Project List (Handles clicks on home items)
-section       document.querySelector('.project-list').addEventListener('click', (e) => {
-            const clicked = e.target.closest('.project-item');
-            if (!clicked) return;
-            switchTab(clicked.dataset.targetTab);
-Ind     });
+        /**
+         * Switches the active tab content and updates the navigation state.
+         * @param {string} targetId - The ID of the tab content to activate.
+         */
+        function switchTab(targetId) {
+            
+            // 1. Update Tab Buttons (Top Navigation)
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.dataset.tab === targetId) {
+                    button.classList.add('active');
+                }
+            });
 
-        // 3. Home References Link (If they click the link inside Home)
-        document.querySelector('.references-link a').addEventListener('click', (e) => {
-            e.preventDefault();
-            switchTab('references');
-        });
+            // 2. Update Tab Content
+            tabContents.forEach(content => {
+                // Force re-animation by removing and adding active class
+                if (content.classList.contains('active')) {
+                    content.classList.remove('active');
+                    // Force reflow for fade-in animation
+                    void content.offsetWidth;
+                }
+            });
+            const targetContent = document.getElementById(targetId);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
 
-        // 4. Contextual Navigation (Back Home button)
-        btnBackHome.addEventListener('click', () => {
-            switchTab('home');
-        });
+            // 3. Update Contextual Navigation
+            const isHome = targetId === 'home';
+            contextualNav.style.display = isHome ? 'none' : 'flex';
 
-        // 5. Contextual Navigation (Next Tab button)
-        btnNextTab.addEventListener('click', () => {
-            const target = btnNextTab.dataset.targetTab;
-    Note       if (target) {
-    V           switchTab(target);
-            }
-        });
+            if (!isHome) {
+                const currentTabIndex = tabOrder.indexOf(targetId);
+                const nextTabIndex = currentTabIndex + 1;
+                const nextTabId = tabOrder[nextTabIndex];
+                
+                // Get display name from button text (e.g., 'Mission' -> 'MODELO 3D')
+                const activeTabButton = document.querySelector(`.tab-button[data-tab="${targetId}"]`);
+                const displayName = activeTabButton ? activeTabButton.textContent.toUpperCase() : targetId.toUpperCase();
 
+                // Update title
+                currentTabTitle.textContent = displayName;
 
-        // ========================================
-        // INITIALIZATION & LOADING SCREEN
-        // ========================================
-        const loadingScreen = document.querySelector('.loading-screen');
-Ind       const contentWrapper = document.querySelector('.content-wrapper');
-
-        window.addEventListener('load', () => {
-            if (loadingScreen && contentWrapper) {
-                setTimeout(() => {
-                    loadingScreen.classList.add('hidden');
-s                 
-                    loadingScreen.addEventListener('animationend', () => {
-                        loadingScreen.style.display = 'none';
-                        
-                        contentWrapper.style.visibility = 'visible';
-Ind                     contentWrapper.style.opacity = '1';
-
-                        // Ensure 'home' tab is correctly set up after loading
-                        requestAnimationFrame(() => {
-                      Ind     switchTab('home');
-                        });
-                    }, { once: true });
-                }, 500); 
-            } else if (contentWrapper) {
-                contentWrapper.style.visibility = 'visible';
-  Ind             contentWrapper.style.opacity = '1';
-                switchTab('home'); // Failsafe
-            }
-        });
+                // Update next button
+                if (nextTabId) {
+                    // Get the text of the next tab button for the label
+                    const nextTabButton = document.querySelector(`.tab-button[data-tab="${nextTabId}"]`);
+                    const nextTabName = nextTabButton ? nextTabButton.textContent.toUpperCase() : nextTabId.toUpperCase();
+                    
+                    btnNextTab.textContent = `Siguiente: ${nextTabName} →`;
+                    btnNextTab.dataset.targetTab = nextTabId;
+                    btnNextTab.disabled = false;
+                } else {
+                    btnNextTab.textContent = 'Fin del Archivo';
+                    btnNextTab.dataset.targetTab = '';
+                    btnNextTab.disabled = true;
+                }
+            }
+        }
 
 
-        // ========================================
-        // LIGHTBOX LOGIC
-        // ========================================
-        const lightbox = document.getElementById('myLightbox');
-section       const lightboxImg = document.getElementById('lightboxImg');
-        const closeLightbox = document.querySelector('.close-lightbox');
+        // ========================================
+        // EVENT LISTENERS
+        // ========================================
+        
+        // 1. Top Tab Navigation (Handles clicks on top buttons)
+        document.querySelector('.tab-container').addEventListener('click', (e) => {
+            const clicked = e.target.closest('.tab-button');
+            if (!clicked) return;
+            switchTab(clicked.dataset.tab);
+        });
+        
+        // 2. Home Project List (Handles clicks on home items)
+        document.querySelector('.project-list').addEventListener('click', (e) => {
+            const clicked = e.target.closest('.project-item');
+            if (!clicked) return;
+            switchTab(clicked.dataset.targetTab);
+        });
 
-        if (lightbox && lightboxImg && closeLightbox) {
-            contentImages.forEach(img => {
-                img.addEventListener('click', () => {
-                    lightbox.style.display = 'flex';
-Ind                 lightboxImg.src = img.src;
-                });
-            });
+        // 3. Home References Link (If they click the link inside Home)
+        document.querySelector('.references-link a').addEventListener('click', (e) => {
+            e.preventDefault();
+            switchTab('references');
+        });
 
-            closeLightbox.addEventListener('click', () => {
-                lightbox.style.display = 'none';
-            });
+        // 4. Contextual Navigation (Back Home button)
+        btnBackHome.addEventListener('click', () => {
+            switchTab('home');
+        });
 
-            lightbox.addEventListener('click', (e) => {
-Ind             if (e.target === lightbox) {
-                    lightbox.style.display = 'none';
-                }
-            });
-        }
-    });
-  </script>
+        // 5. Contextual Navigation (Next Tab button)
+        btnNextTab.addEventListener('click', () => {
+            const target = btnNextTab.dataset.targetTab;
+            if (target) {
+                switchTab(target);
+            }
+        });
+
+
+        // ========================================
+        // INITIALIZATION & LOADING SCREEN
+        // ========================================
+        const loadingScreen = document.querySelector('.loading-screen');
+        const contentWrapper = document.querySelector('.content-wrapper');
+
+        window.addEventListener('load', () => {
+            if (loadingScreen && contentWrapper) {
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                    
+                    loadingScreen.addEventListener('animationend', () => {
+                        loadingScreen.style.display = 'none';
+                        
+                        contentWrapper.style.visibility = 'visible';
+                        contentWrapper.style.opacity = '1';
+
+                        // Ensure 'home' tab is correctly set up after loading
+                        requestAnimationFrame(() => {
+                            switchTab('home');
+                        });
+                    }, { once: true });
+                }, 500); 
+            } else if (contentWrapper) {
+                contentWrapper.style.visibility = 'visible';
+                contentWrapper.style.opacity = '1';
+                switchTab('home'); // Failsafe
+            }
+        });
+
+
+        // ========================================
+        // LIGHTBOX LOGIC
+        // ========================================
+        const lightbox = document.getElementById('myLightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const closeLightbox = document.querySelector('.close-lightbox');
+
+        if (lightbox && lightboxImg && closeLightbox) {
+            contentImages.forEach(img => {
+                img.addEventListener('click', () => {
+                    lightbox.style.display = 'flex';
+                    lightboxImg.src = img.src;
+                });
+            });
+
+            closeLightbox.addEventListener('click', () => {
+                lightbox.style.display = 'none';
+            });
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    lightbox.style.display = 'none';
+                }
+            });
+        }
+    });
+  </script>
 
 </body>
 </html>
