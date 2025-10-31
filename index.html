@@ -8,8 +8,8 @@
   
   <style>
     /* ========================================
-    GLOBALS & AESTHETICS (STARFIELD PALETTE)
-    ========================================
+     GLOBALS & AESTHETICS (STARFIELD PALETTE)
+     ========================================
     */
     :root {
       --color-bg: #0C161C; /* Deep Space Navy */
@@ -88,8 +88,8 @@
     }
 
     /* ========================================
-    LAYOUT & STRUCTURE
-    ========================================
+     LAYOUT & STRUCTURE
+     ========================================
     */
     .content-wrapper {
       position: relative;
@@ -127,8 +127,8 @@
     }
 
     /* ========================================
-    NAVIGATION & TABS
-    ========================================
+     NAVIGATION & TABS
+     ========================================
     */
     .tab-container {
       display: flex;
@@ -218,8 +218,8 @@
 
 
     /* ========================================
-    HOME TAB LAYOUT (PROJECT LIST)
-    ========================================
+     HOME TAB LAYOUT (PROJECT LIST)
+     ========================================
     */
     .project-list {
         list-style: none;
@@ -309,8 +309,8 @@
 
 
     /* ========================================
-    OTHER CONTENT STYLES (Kept for completeness)
-    ========================================
+     OTHER CONTENT STYLES (Kept for completeness)
+     ========================================
     */
     .tab-content h2 {
       font-family: var(--font-primary);
@@ -374,8 +374,43 @@
 
 
     /* ========================================
-    FOOTER & LOADING SCREEN
-    ========================================
+     === CSS DEL BOTÓN DE DESCARGA (AÑADIDO) ===
+     ========================================
+    */
+    
+    .download-area {
+        display: flex;
+        justify-content: flex-end; /* Para alinear el botón a la derecha */
+        padding-top: 20px;
+        margin-top: 40px; /* Espacio después del último contenido */
+        border-top: 1px solid var(--color-border);
+    }
+
+    .btn-download {
+        font-family: var(--font-primary);
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: var(--color-accent);
+        background: none;
+        border: 1px solid var(--color-accent);
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s;
+        letter-spacing: 1px;
+        text-decoration: none; /* Añadido para la etiqueta <a> */
+        display: inline-block; /* Añadido para la etiqueta <a> */
+    }
+
+    .btn-download:hover {
+        background-color: var(--color-accent);
+        color: var(--color-bg);
+    }
+
+
+    /* ========================================
+     FOOTER & LOADING SCREEN
+     ========================================
     */
     footer {
       text-align: center;
@@ -574,13 +609,21 @@
         <div class="tab-content" id="system">
           <h2>PCB</h2>
           <p>El objetivo es cortar una tabla de PCB, basado en un diseño en EasyEDA y TinkerCad.</p>
-          
+
+          <p>Para empezar, se hizo un modelo en TinkerCad, con el objetivo de saber como funcionaría el diseño en EasyEDA.</p>
           <div class="content-with-image">
               <img src="Figura[2].png" alt="Modelo de TinkerCad del PCB.">
               <div class="figure-caption">Figura 1. El modelo de TinkerCad del PCB.</div>
           </div>
 
-        </div>
+          <div class="download-area">
+              <a href="Gerber_PCB-Luz_PCB_PCB-Luz_2_2025-10-16-1.zip" 
+                 class="btn-download" 
+                 download="Gerber_PCB-Luz_PCB_PCB-Luz_2_2025-10-16-1.zip">
+                 Descargar Archivos Gerber
+              </a>
+          </div>
+          </div>
 
         <div class="tab-content" id="references">
           <h2>Referencias</h2>
@@ -601,7 +644,9 @@
       <p>&copy; 2025 Constellation Archives. All rights reserved. UI Concept by [Your Name Here]</p>
     </footer>
 
-  </div> <div id="myLightbox" class="lightbox">
+  </div> 
+  
+  <div id="myLightbox" class="lightbox">
     <span class="close-lightbox">&times;</span>
     <img class="lightbox-content" id="lightboxImg" src="">
   </div>
