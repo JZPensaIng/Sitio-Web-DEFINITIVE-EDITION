@@ -584,12 +584,12 @@
           <p>En este proyecto, se utilizó un modelo en TinkerCad con el objetivo de armar un cubo solo con MDF.</p>
           
           <div class="content-with-image">
-              <p>El concepto inicial se pensó en hacer que todas las partes sean simétricas, al hacer esto, fue más fácil el modelar el cubo. Pero la base terminó siendo más grande, siendo un rectángulo.</p>
+              <p>El concepto inicial se pensó en hacer que todas las partes sean simétricas, al hacer esto, fue más fácil el modelar el cubo. Pero, la base terminó siendo más grande, formando un rectángulo.</p>
               <img src="Figura[3].png" alt="Modelo de TinkerCad del cubo.">
               <div class="figure-caption">Figura 1. Presentando el modelo de TinkerCad de lo que será el modelo del cubo.</div>
           </div>
 
-          <p>El proceso de cortado se realizó en la cortadora laser del club de cohetería. Se utilizó MDF.</p>
+          <p>El proceso de cortado se realizó en la cortadora láser del club de cohetería. Se utilizó MDF.</p>
           
           <p>Se empezó el proceso de armado una vez ya cortadas las piezas, se contaron 6 piezas en total.</p>
 
@@ -604,14 +604,14 @@
               <img src="Figura[Cubo3].jpg" alt="Modelo del cubo armado.">
               <div class="figure-caption">Figura 3. El modelo de cubo completo, con un armado realizado con pegamento.</div>
           </div>
-
+          <p>El cubo está completo, el reto más grande fue lograr un modelo que tenga las medidas correctas, un error puede arruinar todo el proyecto.</p>
         </div>
 
         <div class="tab-content" id="system">
           <h2>PCB</h2>
-          <p>El objetivo es cortar una tabla de PCB, basado en un diseño en EasyEDA y TinkerCad.</p>
+          <p>El objetivo es cortar una tabla de PCB, basado en un diseño de EasyEDA y TinkerCad.</p>
 
-          <p>Para empezar, se hizo un modelo en TinkerCad, con el objetivo de saber como funcionaría el diseño en EasyEDA.</p>
+          <p>Para empezar, se hizo un modelo en TinkerCad, con el objetivo de saber como funcionaría el diseño en EasyEDA, utilizando la herramienta de simulación y los componentes: Timer 555, LED rojo, potenciometro, resistencias, batería de 9 volts y un capacitor. Conectándolo en una tabla de pruebas de Arduino.</p>
           <div class="content-with-image">
               <img src="Figura[2].png" alt="Modelo de TinkerCad del PCB.">
               <div class="figure-caption">Figura 1. El modelo de TinkerCad del PCB.</div>
@@ -626,7 +626,7 @@
           </div>
           <p>Después, se hizo el diseño en EasyEDA, se hizo el intento de corte. Puedes descargar el modelo con el botón de arriba: (El modelo es poco funcional, contiene varios errores de diseño)</p>
 
-          <p>La cortadora falló 3 veces en cortar, pero finalmente se logró completar el corte.</p>
+          <p>La cortadora falló 3 veces en cortar, pero al final se logró completar el corte. El manejo de las herramientas fue complicado, ya que no se tenía mucha experiencia con la cortadora láser.</p>
           <div class="content-with-image">
               <img src="Figura[PCB].jpg" alt="Fotografía del PCB siendo cortado.">
               <div class="figure-caption">Figura 2. El PCB siendo cortado en el laboratorio.</div>
@@ -638,7 +638,7 @@
               <div class="figure-caption">Figura 3. El PCB listo, con algunos errores.</div>
           </div>
 
-          <p>Se hizo posteriormente, un modelo nuevo, creado con la ayuda de mis compañeros de clase. Este modelo es funcional, pero necesita de cables para poder conectar el IC 555 (Timer 555).</p>
+          <p>Se hizo posteriormente, un modelo nuevo, creado con la ayuda de mis compañeros de clase. Este modelo es funcional, pero necesita de cables para poder conectar el IC 555 (Timer 555) evitando que la corriente cause corto circuito.</p>
           <div class="content-with-image">
               <img src="Figura[Pcb final].jpg" alt="Fotografía del PCB final listo.">
               <div class="figure-caption">Figura 4. El PCB final, listo para ser utilizado.</div>
@@ -648,11 +648,12 @@
 
         <div class="tab-content" id="references">
           <h2>Referencias</h2>
-          <p>Esta página fue creada con Inteligencia Artificial. Con el objetivo de mejorar la interfaz, animaciones y rendimiento. La página fue creada por: Juan Carlos Zuarth Moreno.</p>
+          <p>Esta página fue creada con la ayuda de Inteligencia Artificial. Con el objetivo de mejorar la interfaz, animaciones y rendimiento. La página fue creada por: Juan Carlos Zuarth Moreno.</p>
           <ul>
               <li><a href="https://easyeda.com/" target="_blank">Sitio oficial de EasyEDA</a></li>
               <li><a href="https://www.tinkercad.com/" target="_blank">Sitio oficial de TinkerCad</a></li>
               <li><a href="https://bambulab.com/es-mx/download/studio" target="_blank">La página de Bambu Lab, para la impresión 3D.</a> </li>
+              <li><a href="https://gemini.google.com/app" target="_blank">La página oficial de Google, llamada Gemini, una Inteligencia Artificial de tipo LLM.</a> </li>
               <li>Las imágenes fueron tomadas por el autor de la página: Juan Carlos Zuarth Moreno.</li>
           </ul>
           <p>El repositorio no tiene el objetivo de lucrar, sino de compartir la experiencia de proyectos de diseño y fabricación.</p>
@@ -687,7 +688,7 @@
         const contentImages = document.querySelectorAll('.content-with-image img');
         
         // Define the order of the main tabs (excluding home, which is special)
-        // Note: The 'mission' tab now serves as the 'Modelo 3D' project.
+      
         const tabOrder = ['mission', 'codex', 'system', 'references'];
 
 
